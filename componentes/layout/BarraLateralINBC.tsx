@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
+  Calendar,
   Stethoscope,
   Brain,
   Dumbbell,
@@ -30,6 +31,7 @@ interface ItemNavegacao {
 
 const itensNavegacao: ItemNavegacao[] = [
   { rotulo: 'Painel Geral',           href: '/painel',                     icone: LayoutDashboard },
+  { rotulo: 'Agenda Interna',         href: '/painel/agenda',              icone: Calendar, badge: 'Grade' },
   { rotulo: 'Clínica & Exames',       href: '/painel/clinica',             icone: Stethoscope, badge: 'Hoje' },
   { rotulo: 'Terapias & Psicoterapia',href: '/painel/terapias',            icone: Brain },
   { rotulo: 'Esportes & Lutas',       href: '/painel/esportes-terapias',   icone: Dumbbell, badge: 'Karate/Zumba' },
