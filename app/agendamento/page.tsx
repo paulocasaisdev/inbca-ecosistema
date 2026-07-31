@@ -68,7 +68,7 @@ export default function PaginaAgendamento() {
       return
     }
 
-    const cod = 'INBC-' + Math.floor(100000 + Math.random() * 900000)
+    const cod = 'INBCA-' + Math.floor(100000 + Math.random() * 900000)
     setCodigoAgendamento(cod)
     setConcluido(true)
     toast.success('Agendamento realizado com sucesso na Casinha Amarela!')
@@ -80,13 +80,13 @@ export default function PaginaAgendamento() {
       <header className="bg-white dark:bg-slate-900 border-b border-amber-200 dark:border-amber-900/40 px-4 lg:px-8 py-4 flex items-center justify-between shadow-soft">
         <Link href="/" className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 font-bold text-sm">
           <ArrowLeft className="w-4 h-4" />
-          <span>Voltar ao Portal INBC</span>
+          <span>Voltar ao Portal INBCA</span>
         </Link>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-slate-950 font-bold">
             <Home className="w-4 h-4" />
           </div>
-          <span className="font-black text-amber-600 text-sm">INBC Agendamentos</span>
+          <span className="font-black text-amber-600 text-sm">INBCA Agendamentos</span>
         </div>
       </header>
 
@@ -337,7 +337,7 @@ export default function PaginaAgendamento() {
               {/* Botão de Finalização */}
               <button type="submit" className="botao-primario w-full py-4 text-base mt-4">
                 <CheckCircle className="w-5 h-5" />
-                <span>Confirmar Agendamento no INBC</span>
+                <span>Confirmar Agendamento no INBCA</span>
               </button>
             </form>
           </div>

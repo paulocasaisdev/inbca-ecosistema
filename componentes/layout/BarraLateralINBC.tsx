@@ -63,7 +63,7 @@ export function BarraLateralINBC() {
               <Home className="w-5 h-5 text-slate-950 font-bold" />
             </div>
             <div>
-              <h1 className="text-base font-black text-slate-900 dark:text-amber-300 leading-tight">INBC</h1>
+              <h1 className="text-base font-black text-slate-900 dark:text-amber-300 leading-tight">INBCA</h1>
               <p className="text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-widest">
                 Casinha Amarela
               </p>

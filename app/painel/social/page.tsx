@@ -25,7 +25,7 @@ export default function PaginaAssistencialSocial() {
         <div>
           <div className="badge-amarelo mb-2">Assistência Social & Beneficiários</div>
           <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">
-            Famílias Cadastradas no INBC
+            Famílias Cadastradas no INBCA
           </h1>
           <p className="text-xs text-slate-600 dark:text-slate-400">
             Acompanhamento social e cadastro de moradores da Casinha Amarela.

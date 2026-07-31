@@ -1,5 +1,5 @@
 // ============================================================
-// INBC - Instituto Nilson Bispo Casinha Amarela
+// INBCA - Instituto Nilson Bispo Casinha Amarela
 // Layout Raiz da Aplicação
 // ============================================================
 
@@ -13,11 +13,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | INBC Casinha Amarela',
-    default: 'INBC - Instituto Nilson Bispo Casinha Amarela',
+    template: '%s | INBCA Casinha Amarela',
+    default: 'INBCA - Instituto Nilson Bispo Casinha Amarela',
   },
   description: 'Associação Comunitária com clínica médica, exames, terapias, psicoterapias e esportes inclusivos (Karatê, Zumba, Capoeira, Boxe, Kickboxing).',
-  keywords: ['INBC', 'Casinha Amarela', 'Nilson Bispo', 'clínica médica comunitária', 'exames', 'fisioterapia', 'psicologia', 'karatê', 'zumba', 'capoeira', 'boxe', 'kickboxing'],
+  keywords: ['INBCA', 'Casinha Amarela', 'Nilson Bispo', 'clínica médica comunitária', 'exames', 'fisioterapia', 'psicologia', 'karatê', 'zumba', 'capoeira', 'boxe', 'kickboxing'],
   authors: [{ name: 'Instituto Nilson Bispo' }],
 }
 

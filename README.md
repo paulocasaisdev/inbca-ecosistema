@@ -1,6 +1,6 @@
-# 🏡 INBC - Instituto Nilson Bispo Casinha Amarela
+# 🏡 INBCA - Instituto Nilson Bispo Casinha Amarela
 
-Ecossistema digital da associação comunitária **INBC - Instituto Nilson Bispo Casinha Amarela**, voltado para a gestão integrada de clínica médica comunitária (agendamento e realização de consultas e exames), serviços de terapias integrativas (psicologia, psicoterapia e fisioterapia) e práticas esportivas inclusivas (**Karatê, Zumba, Capoeira, Boxe e Kickboxing**).
+Ecossistema digital da associação comunitária **INBCA - Instituto Nilson Bispo Casinha Amarela**, voltado para a gestão integrada de clínica médica comunitária (agendamento e realização de consultas e exames), serviços de terapias integrativas (psicologia, psicoterapia e fisioterapia) e práticas esportivas inclusivas (**Karatê, Zumba, Capoeira, Boxe e Kickboxing**).
 
 ---
 
@@ -12,7 +12,7 @@ Ecossistema digital da associação comunitária **INBC - Instituto Nilson Bispo
   - Indicadores de impacto social e histórias do Instituto.
 
 - **Portal de Agendamento Comunitário (`/agendamento`)**:
-  - Marcação pública de consultas médicas, exames, terapias e aulas esportivas com emissão de comprovante e código único (`INBC-XXXXXX`).
+  - Marcação pública de consultas médicas, exames, terapias e aulas esportivas com emissão de comprovante e código único (`INBCA-XXXXXX`).
 
 - **Painel Administrativo (`/painel`)**:
   - Dashboard de Métricas Comunitárias (Consultas, Exames, Praticantes de Esportes/Lutas e Sessões Terapêuticas).

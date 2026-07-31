@@ -50,7 +50,7 @@ export default function PaginaInicial() {
       {/* Barra Superior / Banner da Comunidade */}
       <div className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 px-4 py-2 text-xs font-bold text-center flex items-center justify-center gap-2 shadow-sm">
         <Sparkles className="w-3.5 h-3.5 animate-spin" />
-        <span>INBC - Instituto Nilson Bispo Casinha Amarela: Promovendo Saúde, Esporte e Inclusão na Comunidade!</span>
+        <span>INBCA - Instituto Nilson Bispo Casinha Amarela: Promovendo Saúde, Esporte e Inclusão na Comunidade!</span>
       </div>
 
       {/* Cabeçalho / Navegação Principal */}
@@ -61,7 +61,7 @@ export default function PaginaInicial() {
           </div>
           <div>
             <h1 className="text-lg font-black tracking-tight text-slate-900 dark:text-amber-300">
-              INBC <span className="text-amber-600 dark:text-amber-400 font-semibold">Casinha Amarela</span>
+              INBCA <span className="text-amber-600 dark:text-amber-400 font-semibold">Casinha Amarela</span>
             </h1>
             <p className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-widest">
               Instituto Nilson Bispo
@@ -74,7 +74,7 @@ export default function PaginaInicial() {
           <a href="#clinica" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Clínica & Exames</a>
           <a href="#terapias" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Terapias</a>
           <a href="#esportes" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Esportes & Lutas</a>
-          <a href="#impacto" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">História do INBC</a>
+          <a href="#impacto" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">História do INBCA</a>
         </nav>
 
         {/* Ações */}
@@ -106,7 +106,7 @@ export default function PaginaInicial() {
           </h1>
 
           <p className="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-            O <strong>Instituto Nilson Bispo (INBC)</strong> une consultas médicas comunitárias, exames laboratoriais, acompanhamento terapêutico e práticas esportivas inclusivas (Karatê, Zumba, Capoeira, Boxe e Kickboxing) para promover bem-estar e dignidade a todas as famílias.
+            O <strong>Instituto Nilson Bispo (INBCA)</strong> une consultas médicas comunitárias, exames laboratoriais, acompanhamento terapêutico e práticas esportivas inclusivas (Karatê, Zumba, Capoeira, Boxe e Kickboxing) para promover bem-estar e dignidade a todas as famílias.
           </p>
 
           {/* Destaques Rápidos */}
@@ -258,7 +258,7 @@ export default function PaginaInicial() {
               Instituto Nilson Bispo - Casinha Amarela
             </h2>
             <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-              Fundado com a missão de acolher e cuidar das famílias em situação de vulnerabilidade, o INBC tornou a <strong>Casinha Amarela</strong> um símbolo de esperança, saúde preventiva e oportunidade esportiva. Atuamos diariamente com profissionais voluntários, médicos, terapeutas e instrutores de lutas dedicados a transformar vidas.
+              Fundado com a missão de acolher e cuidar das famílias em situação de vulnerabilidade, o INBCA tornou a <strong>Casinha Amarela</strong> um símbolo de esperança, saúde preventiva e oportunidade esportiva. Atuamos diariamente com profissionais voluntários, médicos, terapeutas e instrutores de lutas dedicados a transformar vidas.
             </p>
             <div className="grid grid-cols-3 gap-4 pt-2">
               <div className="p-3 bg-white/80 dark:bg-slate-900 rounded-2xl border border-amber-200 text-center">
@@ -299,7 +299,7 @@ export default function PaginaInicial() {
               <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-slate-950 font-bold">
                 <Home className="w-4 h-4" />
               </div>
-              <span className="font-extrabold text-amber-400 text-base">INBC Casinha Amarela</span>
+              <span className="font-extrabold text-amber-400 text-base">INBCA Casinha Amarela</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Instituto Nilson Bispo - Associação Comunitária promovendo saúde, consultas médicas, exames, terapias e esportes inclusivos.
@@ -321,7 +321,7 @@ export default function PaginaInicial() {
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">Contato & Sede</h4>
             <div className="space-y-2 text-xs text-slate-400">
               <p className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-amber-500" /> Sede Casinha Amarela - Comunidade</p>
-              <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-amber-500" /> (71) 99999-0000 / Contato INBC</p>
+              <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-amber-500" /> (71) 99999-0000 / Contato INBCA</p>
               <p className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-amber-500" /> Seg a Sáb: 07h às 19h</p>
             </div>
           </div>
@@ -338,7 +338,7 @@ export default function PaginaInicial() {
         </div>
 
         <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} INBC - Instituto Nilson Bispo Casinha Amarela. Todos os direitos reservados.
+          © {new Date().getFullYear()} INBCA - Instituto Nilson Bispo Casinha Amarela. Todos os direitos reservados.
         </div>
       </footer>
     </div>

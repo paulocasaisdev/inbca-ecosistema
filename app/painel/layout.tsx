@@ -1,5 +1,5 @@
 // ============================================================
-// INBC - Instituto Nilson Bispo Casinha Amarela
+// INBCA - Instituto Nilson Bispo Casinha Amarela
 // Layout do Painel Administrativo
 // ============================================================
 

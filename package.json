@@ -2,7 +2,7 @@
   "name": "inbca-ecosistema",
   "version": "1.0.0",
   "private": true,
-  "description": "Ecossistema de Associação Comunitária INBC - Instituto Nilson Bispo Casinha Amarela",
+  "description": "Ecossistema de Associação Comunitária INBCA - Instituto Nilson Bispo Casinha Amarela",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

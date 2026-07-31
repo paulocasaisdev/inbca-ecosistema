@@ -5,7 +5,7 @@ import { Heart, Stethoscope, Dumbbell, Sparkles, Sun, Users, Activity, Smile } f
 
 export function CasinhaAmarelaAnimada() {
   const [portaAberta, setPortaAberta] = useState(false)
-  const [mensagemAtiva, setMensagemAtiva] = useState('Bem-vindo à Casinha Amarela do INBC!')
+  const [mensagemAtiva, setMensagemAtiva] = useState('Bem-vindo à Casinha Amarela do INBCA!')
 
   const estatisticas = [
     { icone: Stethoscope, titulo: 'Consultas & Exames', valor: '8.400+', cor: 'bg-amber-100 text-amber-800' },
