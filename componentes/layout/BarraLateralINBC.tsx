@@ -16,7 +16,8 @@ import {
   Home,
   LogOut,
   Bell,
-  Sparkles
+  Sparkles,
+  Users
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
@@ -33,6 +34,7 @@ const itensNavegacao: ItemNavegacao[] = [
   { rotulo: 'Terapias & Psicoterapia',href: '/painel/terapias',            icone: Brain },
   { rotulo: 'Esportes & Lutas',       href: '/painel/esportes-terapias',   icone: Dumbbell, badge: 'Karate/Zumba' },
   { rotulo: 'Assistência & Famílias', href: '/painel/social',              icone: HeartHandshake },
+  { rotulo: 'Equipe & Perfis',        href: '/painel/usuarios',            icone: Users, badge: '6 Categorias' },
   { rotulo: 'Voluntários & Doações',  href: '/painel/voluntarios',         icone: Gift },
 ]
 
