@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   INBC - Instituto Nilson Bispo Casinha Amarela
+   Estilos Globais e Tema Amarelo Claro
+   ============================================================ */
+
+@layer base {
+  :root {
+    --background: #fffdf5;
+    --foreground: #1e1b18;
+  }
+
+  html, body {
+    background-color: var(--background);
+    color: var(--foreground);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar personalizada em amarelo claro */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fffbe6;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #fde047;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f59e0b;
+  }
+}
+
+@layer components {
+  /* Cartão Temático Casinha Amarela */
+  .cartao-amarelo {
+    @apply bg-white dark:bg-slate-900/90 rounded-2xl shadow-card border border-amber-100 dark:border-amber-900/30 p-6 transition-all duration-300 hover:shadow-soft hover:border-amber-300;
+  }
+
+  .cartao-destaque {
+    @apply bg-gradient-to-br from-amber-500/10 via-yellow-400/5 to-amber-500/15 dark:from-amber-950/40 dark:to-slate-900 rounded-3xl border border-amber-300/40 dark:border-amber-600/30 p-8 shadow-glass;
+  }
+
+  /* Botão Amarelo Principal */
+  .botao-primario {
+    @apply px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold shadow-soft transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2;
+  }
+
+  .botao-secundario {
+    @apply px-5 py-3 rounded-xl bg-amber-100/70 hover:bg-amber-200/80 text-amber-900 font-semibold border border-amber-200/60 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-800/40 transition-all duration-200 flex items-center justify-center gap-2;
+  }
+
+  /* Campos de Entrada */
+  .campo-input {
+    @apply w-full px-4 py-3 border border-amber-200 dark:border-slate-700 rounded-xl text-sm bg-amber-50/40 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 hover:border-amber-300 transition-all;
+  }
+
+  /* Rótulos */
+  .rotulo-campo {
+    @apply block text-sm font-semibold text-slate-700 dark:text-amber-200 mb-1.5;
+  }
+
+  /* Badge Temático */
+  .badge-amarelo {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border border-amber-200/60 dark:border-amber-700/40;
+  }
+}
