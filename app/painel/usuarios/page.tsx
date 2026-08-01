@@ -1,19 +1,14 @@
 'use client'
+// ============================================================
+// INBCA - Categorias e Perfis de Profissionais (Equipe)
+// Instituto Nilson Bispo Casinha Amarela
+// ============================================================
 
 import React, { useState } from 'react'
 import {
-  Users,
-  UserPlus,
-  ShieldCheck,
-  Stethoscope,
-  Search,
-  Filter,
-  CheckCircle,
-  Mail,
-  Phone,
-  FileText,
-  BadgeCheck,
-  Building
+  Users, UserPlus, ShieldCheck, Stethoscope, Search,
+  Filter, CheckCircle, Mail, Phone, FileText, BadgeCheck,
+  Building, Shield, UserX, UserCheck
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { CategoriaUsuario, CATEGORIAS_CONFIG, UsuarioINBCA } from '@/tipos/usuario'
@@ -58,24 +53,24 @@ export default function PaginaUsuariosEquipe() {
     },
     {
       id: '3',
-      nome: 'Enf.ª Juliana Montenegro',
-      email: 'juliana.enfermagem@inbca.org',
+      nome: 'Dra. Camila Vasconcelos',
+      email: 'camila.psico@inbca.org',
       cpf: '321.654.987-11',
-      categoria: 'enfermeiro',
-      registroProfissional: 'COREN/BA 18452-ENF',
-      especialidadeOuFuncao: 'Coordenação de Triagem & Vacinação',
+      categoria: 'psicologo',
+      registroProfissional: 'CRP/BA 12458',
+      especialidadeOuFuncao: 'Psicologia Clínica & Saúde Mental',
       telefone: '(71) 99777-3344',
       status: 'ativo',
       dataCadastro: '2026-02-15',
     },
     {
       id: '4',
-      nome: 'Téc. Marcos Vinícius Santos',
-      email: 'marcos.tecnico@inbca.org',
+      nome: 'Dr. Lucas Mendes',
+      email: 'lucas.fisio@inbca.org',
       cpf: '456.789.123-44',
-      categoria: 'tecnico',
-      registroProfissional: 'COREN/BA 98765-TE',
-      especialidadeOuFuncao: 'Coleta de Exames Laboratoriais & ECG',
+      categoria: 'terapeuta_fisioterapeuta',
+      registroProfissional: 'CREFITO/BA 98765-F',
+      especialidadeOuFuncao: 'Fisioterapia Motora & Reabilitação',
       telefone: '(71) 99666-5566',
       status: 'ativo',
       dataCadastro: '2026-03-01',
@@ -83,11 +78,11 @@ export default function PaginaUsuariosEquipe() {
     {
       id: '5',
       nome: 'Ag. Carla Raimunda de Jesus',
-      email: 'carla.social@inbca.org',
+      email: 'carla.atendimento@inbca.org',
       cpf: '789.123.456-55',
-      categoria: 'agente_social',
-      registroProfissional: 'AS-8841',
-      especialidadeOuFuncao: 'Visitas Domiciliares & Cadastro de Famílias',
+      categoria: 'atendente_agente',
+      registroProfissional: 'AG-8841',
+      especialidadeOuFuncao: 'Marcação de Consultas, Exames & Recepção',
       telefone: '(71) 99555-7788',
       status: 'ativo',
       dataCadastro: '2026-03-10',
@@ -160,35 +155,63 @@ export default function PaginaUsuariosEquipe() {
     setNovoTelefone('')
   }
 
+  function alternarStatusUsuario(id: string) {
+    let nome = ''
+    let novoStatus: UsuarioINBCA['status'] = 'ativo'
+    setListaUsuarios(prev =>
+      prev.map(u => {
+        if (u.id === id) {
+          nome = u.nome
+          novoStatus = u.status === 'ativo' ? 'inativo' : 'ativo'
+          return { ...u, status: novoStatus }
+        }
+        return u
+      })
+    )
+    toast.success(`Profissional ${nome} foi ${novoStatus === 'ativo' ? 'ativado' : 'desativado'} com sucesso!`)
+  }
+
   return (
-    <div className="space-y-8">
-      {/* Cabeçalho */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="badge-amarelo mb-2">Equipe & Controle de Acesso</div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">
-            Categorias de Usuários & Profissionais
+    <div className="space-y-6 pb-12">
+      {/* ── Header Estilo Casinha Amarela ────────────────────────── */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-400/40 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 max-w-2xl">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="bg-slate-950 text-amber-300 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+              <Users className="w-3.5 h-3.5" />
+              Equipe & Permissões
+            </span>
+            <span className="bg-white/30 text-slate-950 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5" />
+              Matriz de Controle de Acesso
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
+            Profissionais & Níveis de Permissão
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Gestão de Médicos, Enfermeiros, Técnicos, Agentes Sociais, Instrutores e Administradores do INBCA.
+          <p className="text-slate-900 text-sm mt-1.5 font-medium leading-relaxed">
+            Instituto Nilson Bispo Casinha Amarela — Gestão de Administradores, Atendentes, Médicos, Psicólogos, Instrutores e Terapeutas.
           </p>
         </div>
 
-        <button
-          onClick={() => setExibirFormulario(!exibirFormulario)}
-          className="botao-primario text-xs"
-        >
-          <UserPlus className="w-4 h-4" />
-          <span>{exibirFormulario ? 'Cancelar Cadastro' : 'Cadastrar Novo Profissional'}</span>
-        </button>
+        <div className="relative z-10 flex flex-wrap gap-3">
+          <button
+            onClick={() => setExibirFormulario(!exibirFormulario)}
+            className="px-5 py-3 bg-slate-950 text-amber-300 hover:bg-slate-900 font-black text-xs rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>{exibirFormulario ? 'Cancelar' : 'Cadastrar Profissional'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Formulário de Cadastro Rápido de Profissional */}
       {exibirFormulario && (
-        <div className="cartao-destaque animate-slide-up space-y-4">
-          <div className="flex items-center gap-2 border-b border-amber-300/40 pb-3">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-amber-200/80 dark:border-amber-900/40 shadow-xl space-y-4">
+          <div className="flex items-center gap-2 border-b border-amber-100 dark:border-amber-900/40 pb-3">
             <UserPlus className="w-5 h-5 text-amber-600" />
-            <h2 className="font-extrabold text-slate-900 dark:text-amber-200 text-base">
+            <h2 className="font-extrabold text-slate-900 dark:text-amber-300 text-base">
               Cadastrar Novo Profissional no INBCA
             </h2>
           </div>
@@ -225,17 +248,19 @@ export default function PaginaUsuariosEquipe() {
                 onChange={(e) => setNovaCategoria(e.target.value as CategoriaUsuario)}
                 className="campo-input cursor-pointer"
               >
-                <option value="administrador">👑 Administrador</option>
-                <option value="medico">🩺 Médico(a)</option>
-                <option value="enfermeiro">💉 Enfermeiro(a)</option>
-                <option value="tecnico">🔬 Técnico(a) de Enfermagem/Lab</option>
-                <option value="agente_social">🤝 Agente Social / Comunitário</option>
-                <option value="instrutor">🥋 Instrutor(a) / Terapeuta</option>
+                <option value="administrador">👑 Administrador (Acesso Total)</option>
+                <option value="atendente_agente">🤝 Atendente / Agente (Marcação de Consultas e Exames)</option>
+                <option value="medico">🩺 Médico(a) (Dados e Frequências Específicos)</option>
+                <option value="psicologo">🧠 Psicólogo(a) (Dados e Frequências Específicos)</option>
+                <option value="instrutor">🥋 Instrutor(a) (Dados e Frequências Específicos)</option>
+                <option value="terapeuta_fisioterapeuta">🌿 Terapeuta / Fisioterapeuta (Prontuários Específicos)</option>
+                <option value="enfermeiro">💉 Enfermeiro(a) (Triagem e Sinais Vitais)</option>
+                <option value="tecnico">🔬 Técnico(a) (Exames e Laboratório)</option>
               </select>
             </div>
 
             <div>
-              <label className="rotulo-campo">Registro Profissional (CRM, COREN, CREF, etc.)</label>
+              <label className="rotulo-campo">Registro Profissional (CRM, COREN, CREF, CRP, etc.)</label>
               <input
                 type="text"
                 placeholder="Ex: CRM/BA 12345"
@@ -271,11 +296,11 @@ export default function PaginaUsuariosEquipe() {
               <button
                 type="button"
                 onClick={() => setExibirFormulario(false)}
-                className="botao-secundario text-xs"
+                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl"
               >
                 Cancelar
               </button>
-              <button type="submit" className="botao-primario text-xs">
+              <button type="submit" className="px-5 py-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md">
                 Salvar Cadastro de Profissional
               </button>
             </div>
@@ -284,7 +309,7 @@ export default function PaginaUsuariosEquipe() {
       )}
 
       {/* Cards de Resumo por Categoria */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
         {(Object.keys(CATEGORIAS_CONFIG) as CategoriaUsuario[]).map((cat) => {
           const config = CATEGORIAS_CONFIG[cat]
           const qtd = listaUsuarios.filter((u) => u.categoria === cat).length
@@ -296,91 +321,109 @@ export default function PaginaUsuariosEquipe() {
               onClick={() => setCategoriaFiltro(selecionado ? 'todas' : cat)}
               className={`p-3 rounded-2xl border text-left flex flex-col justify-between transition-all ${
                 selecionado
-                  ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-soft scale-105 font-bold'
-                  : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border-amber-200/60 hover:bg-amber-50'
+                  ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-md scale-105 font-bold'
+                  : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border-amber-200/80 dark:border-amber-900/40 hover:bg-amber-50'
               }`}
             >
-              <div className="text-2xl mb-1">{config.icone}</div>
+              <div className="text-xl mb-1">{config.icone}</div>
               <span className="text-xs font-bold leading-tight line-clamp-1">{config.rotulo}</span>
-              <span className="text-[11px] opacity-80 mt-1 font-extrabold">{qtd} cadastrados</span>
+              <span className="text-[10px] opacity-80 mt-1 font-extrabold">{qtd} cadastrados</span>
             </button>
           )
         })}
       </div>
 
-      {/* Tabela de Usuários */}
-      <div className="cartao-amarelo space-y-4">
+      {/* Lista de Usuários Responsiva (0 Rolagem Lateral) */}
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-amber-200/80 dark:border-amber-900/40 shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-amber-100 dark:border-amber-900/40 pb-4">
           <div className="flex items-center gap-2">
             <Users className="w-5 h-5 text-amber-600" />
             <h2 className="font-extrabold text-slate-900 dark:text-slate-100 text-base">
-              Profissionais Registrados na Casinha Amarela ({usuariosFiltrados.length})
+              Profissionais & Permissões de Acesso ({usuariosFiltrados.length})
             </h2>
           </div>
 
           <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Buscar por nome, CRM, e-mail..."
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="campo-input pl-10 text-xs py-2"
+              className="w-full pl-10 pr-4 py-2 bg-amber-50/50 dark:bg-slate-800 text-xs rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none focus:border-amber-500 text-slate-900 dark:text-slate-100"
             />
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="tabela-padrao">
-            <thead>
-              <tr>
-                <th>Profissional / Nome</th>
-                <th>Categoria</th>
-                <th>Registro Profissional</th>
-                <th>Especialidade / Função</th>
-                <th>Contato</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuariosFiltrados.map((user) => {
-                const config = CATEGORIAS_CONFIG[user.categoria]
-                return (
-                  <tr key={user.id}>
-                    <td>
-                      <div>
-                        <p className="font-bold text-slate-900 dark:text-slate-100 text-xs">{user.nome}</p>
-                        <p className="text-[10px] text-slate-400 font-mono">{user.email}</p>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${config.cor}`}>
-                        <span>{config.icone}</span>
-                        <span>{config.rotulo}</span>
+        {/* Lista de Profissionais em Cards Responsivos */}
+        <div className="space-y-3">
+          {usuariosFiltrados.map((user) => {
+            const config = CATEGORIAS_CONFIG[user.categoria]
+            return (
+              <div
+                key={user.id}
+                className="p-5 bg-amber-50/40 dark:bg-slate-800/80 rounded-2xl border border-amber-200/80 dark:border-amber-900/40 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-amber-400 transition-all shadow-sm"
+              >
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-black border shadow-sm ${config.cor}`}>
+                      <span>{config.icone}</span>
+                      <span>{config.rotulo}</span>
+                    </span>
+
+                    <span className="text-[11px] font-black text-amber-950 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950 px-2.5 py-0.5 rounded-md border border-amber-300/80">
+                      {config.escopoAcesso}
+                    </span>
+
+                    {user.registroProfissional && (
+                      <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-md border border-amber-100 dark:border-amber-900/40">
+                        {user.registroProfissional}
                       </span>
-                    </td>
-                    <td className="text-xs font-mono font-bold text-amber-800 dark:text-amber-300">
-                      {user.registroProfissional || 'N/A'}
-                    </td>
-                    <td className="text-xs">{user.especialidadeOuFuncao}</td>
-                    <td className="text-xs text-slate-500">{user.telefone}</td>
-                    <td>
-                      <span className="badge bg-emerald-100 text-emerald-800">Ativo</span>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => toast.info(`Abre opções de permissão para ${user.nome}`)}
-                        className="botao-secundario text-xs py-1 px-3"
-                      >
-                        Permissões
-                      </button>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                    )}
+
+                    <span className={`text-[11px] font-black px-2.5 py-0.5 rounded-md border shadow-xs ${
+                      user.status === 'ativo'
+                        ? 'bg-emerald-100 text-emerald-950 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300'
+                        : 'bg-slate-200 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-400'
+                    }`}>
+                      {user.status === 'ativo' ? '🟢 Ativo' : '🔴 Inativo'}
+                    </span>
+                  </div>
+
+                  <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-base">{user.nome}</h3>
+                  <p className="text-xs text-slate-500 font-medium">
+                    Função: <span className="font-bold text-slate-800 dark:text-slate-200">{user.especialidadeOuFuncao}</span> | E-mail: <span className="font-mono text-slate-700 dark:text-slate-300">{user.email}</span> | Fone: <span className="font-mono text-slate-700 dark:text-slate-300">{user.telefone}</span>
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 border-t md:border-t-0 border-amber-100 dark:border-amber-900/30 pt-3 md:pt-0 justify-end">
+                  <button
+                    onClick={() => toast.info(`Nível de acesso: ${config.escopoAcesso}`)}
+                    className="px-4 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 dark:bg-amber-950 dark:text-amber-300 font-black text-xs transition-all shadow-sm hover:scale-105"
+                  >
+                    Ver Escopo
+                  </button>
+                  {user.status === 'ativo' ? (
+                    <button
+                      onClick={() => alternarStatusUsuario(user.id)}
+                      className="px-4 py-2 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-950/80 dark:text-red-300 font-black text-xs transition-all shadow-sm hover:scale-105 flex items-center gap-1.5"
+                    >
+                      <UserX className="w-3.5 h-3.5" />
+                      <span>Desativar</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => alternarStatusUsuario(user.id)}
+                      className="px-4 py-2 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-300 font-black text-xs transition-all shadow-sm hover:scale-105 flex items-center gap-1.5"
+                    >
+                      <UserCheck className="w-3.5 h-3.5" />
+                      <span>Ativar</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

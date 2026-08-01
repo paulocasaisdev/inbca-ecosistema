@@ -1,19 +1,14 @@
 'use client'
+// ============================================================
+// INBCA - Painel de Gestão Integrada (Casinha Amarela)
+// ============================================================
 
 import React from 'react'
 import Link from 'next/link'
 import {
-  Stethoscope,
-  Activity,
-  Dumbbell,
-  Users,
-  Calendar,
-  Clock,
-  Plus,
-  ArrowUpRight,
-  Sparkles,
-  CheckCircle2,
-  AlertCircle
+  Stethoscope, Activity, Dumbbell, Users, Calendar,
+  Clock, Plus, ArrowUpRight, Sparkles, CheckCircle2,
+  AlertCircle, Shield, Scale, Heart, Home, HeartHandshake, Gift
 } from 'lucide-react'
 
 export default function PaginaPainelGeral() {
@@ -37,57 +32,68 @@ export default function PaginaPainelGeral() {
     { modalidade: 'Zumba & Ginástica', alunos: 140, instrutora: 'Prof.ª Fernanda', dias: 'Seg e Quar' },
     { modalidade: 'Capoeira Comunitária', alunos: 65, instrutor: 'Mestre Bimba SP', dias: 'Sábados' },
     { modalidade: 'Boxe para Saúde', alunos: 70, instrutor: 'Prof. Ricardo', dias: 'Ter e Qui' },
-    { modalidade: 'Kickboxing Adaptado', alunos: 60, instrutor: 'Prof.º Amanda', dias: 'Seg e Sex' },
+    { modalidade: 'Kickboxing Adaptado', alunos: 60, instrutor: 'Prof.ª Amanda', dias: 'Seg e Sex' },
   ]
 
   return (
-    <div className="space-y-8">
-      {/* Cabeçalho do Painel */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="badge-amarelo mb-2">Painel de Gestão Integrada</div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
-            Instituto Nilson Bispo - Casinha Amarela
+    <div className="space-y-6 pb-12">
+      {/* ── Header Estilo Casinha Amarela ────────────────────────── */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-400/40 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 max-w-2xl">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="bg-slate-950 text-amber-300 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+              <Home className="w-3.5 h-3.5" />
+              Casinha Amarela
+            </span>
+            <span className="bg-white/30 text-slate-950 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              Gestão Comunitária Integrada
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
+            Instituto Nilson Bispo Casinha Amarela
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Acompanhamento em tempo real de consultas médicas, exames, terapias e turmas de esportes inclusivos.
+          <p className="text-slate-900 text-sm mt-1.5 font-medium leading-relaxed">
+            Acompanhamento em tempo real de consultas médicas, exames, terapias, esportes inclusivos e assistência social.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Link href="/agendamento" className="botao-primario text-xs">
+        <div className="relative z-10 flex flex-wrap gap-3">
+          <Link
+            href="/agendamento"
+            className="px-5 py-3 bg-slate-950 text-amber-300 hover:bg-slate-900 font-black text-xs rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
+          >
             <Plus className="w-4 h-4" />
             <span>Novo Agendamento</span>
           </Link>
         </div>
       </div>
 
-      {/* Cartões de Métricas */}
+      {/* ── Cartões de Métricas ──────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {metricas.map((m, i) => {
           const Icone = m.icone
           return (
-            <div key={i} className="cartao-amarelo flex flex-col justify-between">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-400">{m.titulo}</span>
-                <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${m.cor} text-slate-950 flex items-center justify-center font-bold shadow-soft`}>
-                  <Icone className="w-5 h-5" />
-                </div>
-              </div>
+            <div key={i} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-amber-200/80 dark:border-amber-900/40 shadow-sm flex items-center justify-between">
               <div>
-                <span className="text-3xl font-black text-slate-900 dark:text-amber-300">{m.valor}</span>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">{m.titulo}</p>
+                <p className="text-2xl font-black text-slate-900 dark:text-amber-300 mt-1">{m.valor}</p>
                 <p className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 mt-1">{m.desc}</p>
+              </div>
+              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${m.cor} text-slate-950 flex items-center justify-center font-bold shadow-soft`}>
+                <Icone className="w-6 h-6" />
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Grid Principal: Atendimentos do Dia & Turmas Esportivas */}
+      {/* ── Grid Principal: Atendimentos do Dia & Turmas Esportivas ────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Atendimentos de Hoje (8 cols) */}
-        <div className="lg:col-span-8 cartao-amarelo space-y-4">
-          <div className="flex items-center justify-between border-b border-amber-100 dark:border-amber-900/40 pb-3">
+        {/* Atendimentos de Hoje em Cards Responsivos (8 cols) */}
+        <div className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-6 border border-amber-200/80 dark:border-amber-900/40 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-amber-100 dark:border-amber-900/40 pb-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-amber-600" />
               <h2 className="font-extrabold text-slate-900 dark:text-slate-100 text-base">
@@ -100,36 +106,33 @@ export default function PaginaPainelGeral() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="tabela-padrao">
-              <thead>
-                <tr>
-                  <th>Horário</th>
-                  <th>Paciente / Aluno</th>
-                  <th>Serviço / Atividade</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {atendimentosHoje.map((at) => (
-                  <tr key={at.id}>
-                    <td className="font-extrabold text-amber-700 dark:text-amber-400">{at.horario}h</td>
-                    <td className="font-bold text-slate-900 dark:text-slate-100">{at.paciente}</td>
-                    <td className="text-xs">{at.servico}</td>
-                    <td>
-                      {at.status === 'confirmado' && <span className="badge bg-emerald-100 text-emerald-800">Confirmado</span>}
-                      {at.status === 'em_atendimento' && <span className="badge bg-amber-200 text-amber-950 animate-pulse">Em Aula / Atendimento</span>}
-                      {at.status === 'agendado' && <span className="badge bg-blue-100 text-blue-800">Agendado</span>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-3">
+            {atendimentosHoje.map((at) => (
+              <div key={at.id} className="p-4 bg-amber-50/40 dark:bg-slate-800/80 rounded-2xl border border-amber-200/70 dark:border-amber-900/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-amber-400 transition-all shadow-sm">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="flex items-center gap-1 bg-amber-200/80 dark:bg-amber-950 text-amber-950 dark:text-amber-300 font-black text-xs px-2.5 py-0.5 rounded-md border border-amber-300/80">
+                      <Clock className="w-3 h-3 text-amber-700 dark:text-amber-400" />
+                      {at.horario}h
+                    </span>
+                    <span className={`text-[11px] font-black px-2.5 py-0.5 rounded-full border shadow-sm ${
+                      at.status === 'confirmado' ? 'bg-emerald-100 text-emerald-950 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300' :
+                      at.status === 'em_atendimento' ? 'bg-amber-200 text-amber-950 border-amber-300 animate-pulse' :
+                      'bg-blue-100 text-blue-950 border-blue-300 dark:bg-blue-950 dark:text-blue-300'
+                    }`}>
+                      {at.status === 'confirmado' ? 'Confirmado ✓' : at.status === 'em_atendimento' ? 'Em Aula / Atendimento' : 'Agendado'}
+                    </span>
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-sm">{at.paciente}</h3>
+                  <p className="text-xs text-slate-500 font-medium">{at.servico}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Modalidades Esportivas Ativas (4 cols) */}
-        <div className="lg:col-span-4 cartao-destaque space-y-4">
+        <div className="lg:col-span-4 bg-amber-500/10 dark:bg-slate-900 rounded-3xl p-6 border border-amber-300/40 dark:border-amber-900/40 shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-amber-300/40 pb-3">
             <Dumbbell className="w-5 h-5 text-amber-600" />
             <h2 className="font-extrabold text-slate-900 dark:text-amber-200 text-base">
@@ -139,7 +142,7 @@ export default function PaginaPainelGeral() {
 
           <div className="space-y-3">
             {modalidadesAtivas.map((mod, idx) => (
-              <div key={idx} className="p-3 bg-white/90 dark:bg-slate-900 rounded-xl border border-amber-200/80 dark:border-amber-900/40 flex items-center justify-between">
+              <div key={idx} className="p-3.5 bg-white dark:bg-slate-800 rounded-2xl border border-amber-200/80 dark:border-amber-900/40 flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-xs text-slate-900 dark:text-slate-100">{mod.modalidade}</h3>
                   <p className="text-[10px] text-slate-500">{mod.dias}</p>
@@ -151,7 +154,7 @@ export default function PaginaPainelGeral() {
             ))}
           </div>
 
-          <Link href="/painel/esportes-terapias" className="botao-primario w-full text-xs py-2.5">
+          <Link href="/painel/esportes-terapias" className="botao-primario w-full text-xs py-3 flex items-center justify-center gap-2">
             Gerenciar Turmas de Lutas & Zumba
           </Link>
         </div>

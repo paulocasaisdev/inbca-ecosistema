@@ -4,7 +4,7 @@
 
 /* ============================================================
    INBCA - Instituto Nilson Bispo Casinha Amarela
-   Estilos Globais e Tema Amarelo Claro
+   Estilos Globais e Tema Amarelo Claro (UX/UI Ajustado)
    ============================================================ */
 
 @layer base {
@@ -19,6 +19,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   /* Scrollbar personalizada em amarelo claro */
@@ -44,34 +45,75 @@
 @layer components {
   /* Cartão Temático Casinha Amarela */
   .cartao-amarelo {
-    @apply bg-white dark:bg-slate-900/90 rounded-2xl shadow-card border border-amber-100 dark:border-amber-900/30 p-6 transition-all duration-300 hover:shadow-soft hover:border-amber-300;
+    @apply bg-white dark:bg-slate-900/90 rounded-3xl shadow-sm border border-amber-200/80 dark:border-amber-900/40 p-6 transition-all duration-300 hover:border-amber-300;
   }
 
   .cartao-destaque {
-    @apply bg-gradient-to-br from-amber-500/10 via-yellow-400/5 to-amber-500/15 dark:from-amber-950/40 dark:to-slate-900 rounded-3xl border border-amber-300/40 dark:border-amber-600/30 p-8 shadow-glass;
+    @apply bg-gradient-to-br from-amber-500/10 via-yellow-400/5 to-amber-500/15 dark:from-amber-950/40 dark:to-slate-900 rounded-3xl border border-amber-300/40 dark:border-amber-600/30 p-6 sm:p-8 shadow-sm;
   }
 
   /* Botão Amarelo Principal */
   .botao-primario {
-    @apply px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold shadow-soft transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2;
+    @apply px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black text-xs shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2;
   }
 
   .botao-secundario {
-    @apply px-5 py-3 rounded-xl bg-amber-100/70 hover:bg-amber-200/80 text-amber-900 font-semibold border border-amber-200/60 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-800/40 transition-all duration-200 flex items-center justify-center gap-2;
+    @apply px-5 py-3 rounded-xl bg-amber-100/70 hover:bg-amber-200/80 text-amber-950 font-bold text-xs border border-amber-200/60 dark:bg-amber-950/50 dark:text-amber-200 dark:border-amber-800/40 transition-all duration-200 flex items-center justify-center gap-2;
   }
 
   /* Campos de Entrada */
   .campo-input {
-    @apply w-full px-4 py-3 border border-amber-200 dark:border-slate-700 rounded-xl text-sm bg-amber-50/40 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 hover:border-amber-300 transition-all;
+    @apply w-full px-4 py-2.5 border border-amber-200/70 dark:border-amber-900/40 rounded-xl text-xs bg-amber-50/50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 hover:border-amber-300 transition-all font-medium;
   }
 
   /* Rótulos */
   .rotulo-campo {
-    @apply block text-sm font-semibold text-slate-700 dark:text-amber-200 mb-1.5;
+    @apply block text-xs font-bold text-slate-700 dark:text-amber-200 uppercase tracking-wider mb-1.5;
   }
 
   /* Badge Temático */
   .badge-amarelo {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border border-amber-200/60 dark:border-amber-700/40;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-300 border border-amber-300/60 dark:border-amber-700/40;
+  }
+
+  /* Tabela Padronizada Casinha Amarela com Excelente UX/UI */
+  .tabela-padrao {
+    @apply w-full min-w-full text-left border-collapse text-xs table-auto;
+  }
+
+  .tabela-padrao th {
+    @apply px-5 py-4 bg-amber-100/70 dark:bg-slate-800/90 text-[11px] font-black text-amber-950 dark:text-amber-300 uppercase tracking-wider border-b border-amber-200 dark:border-amber-900/50 whitespace-nowrap first:rounded-tl-2xl last:rounded-tr-2xl;
+  }
+
+  .tabela-padrao td {
+    @apply px-5 py-4 border-b border-amber-100/70 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 font-medium align-middle transition-colors leading-relaxed;
+  }
+
+  .tabela-padrao tr {
+    @apply transition-colors duration-150 hover:bg-amber-50/60 dark:hover:bg-slate-800/60;
+  }
+
+  .tabela-padrao tr:last-child td {
+    @apply border-b-0;
+  }
+
+  /* Badges Destaque de Palavras */
+  .badge {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black tracking-wide border shadow-sm whitespace-nowrap transition-all;
+  }
+
+  /* Badge Padronizado de Status (Tamanho Único Fixo) */
+  .badge-status {
+    @apply inline-flex items-center justify-center gap-1.5 min-w-[110px] h-7 px-3 rounded-full text-[11px] font-black tracking-wide border shadow-sm whitespace-nowrap text-center transition-all;
+  }
+
+  /* Badge Padronizado de Categorias / Modalidades */
+  .badge-categoria {
+    @apply inline-flex items-center justify-center gap-1.5 min-w-[160px] h-7 px-3.5 rounded-full text-[11px] font-black tracking-wide border shadow-sm whitespace-nowrap text-center transition-all;
+  }
+
+  /* Botão de Ação Padronizado (Tamanho Fixo Uniforme) */
+  .btn-acao-padrao {
+    @apply inline-flex items-center justify-center gap-1.5 w-36 h-9 px-3 rounded-xl font-black text-xs whitespace-nowrap transition-all shadow-sm hover:scale-105;
   }
 }

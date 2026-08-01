@@ -1,26 +1,16 @@
 'use client'
+// ============================================================
+// INBCA - Grade Diária de Atendimentos & Agenda Interna
+// Instituto Nilson Bispo Casinha Amarela
+// ============================================================
 
 import React, { useState } from 'react'
 import Link from 'next/link'
 import {
-  Calendar as CalendarIcon,
-  Clock,
-  User,
-  Phone,
-  Stethoscope,
-  Activity,
-  Dumbbell,
-  Brain,
-  Plus,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Filter,
-  Search,
-  ChevronLeft,
-  ChevronRight,
-  Send,
-  UserCheck
+  Calendar as CalendarIcon, Clock, User, Phone,
+  Stethoscope, Activity, Dumbbell, Brain, Plus,
+  CheckCircle, XCircle, AlertCircle, Filter, Search,
+  ChevronLeft, ChevronRight, Send, UserCheck, Shield
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -97,7 +87,7 @@ export default function PaginaAgendaInterna() {
       telefone: '(71) 99555-2211',
       categoria: 'terapias',
       servico: 'Fisioterapia Motora e Reabilitação',
-      profissional: 'Dra. Beatriz (Fisioterapeuta)',
+      profissional: 'Dr. Lucas Mendes (Fisioterapeuta)',
       data: new Date().toISOString().split('T')[0],
       horario: '10:15',
       status: 'agendado',
@@ -112,18 +102,6 @@ export default function PaginaAgendaInterna() {
       profissional: 'Prof.ª Fernanda (Instrutora)',
       data: new Date().toISOString().split('T')[0],
       horario: '11:00',
-      status: 'agendado',
-    },
-    {
-      id: '6',
-      codigo: 'INBCA-882103',
-      paciente: 'Seu Antônio Ramos (72 anos)',
-      telefone: '(71) 99333-7766',
-      categoria: 'clinica',
-      servico: 'Oftalmologia - Exame de Vista',
-      profissional: 'Dra. Camila Duarte (Oftalmo)',
-      data: new Date().toISOString().split('T')[0],
-      horario: '14:00',
       status: 'agendado',
     },
   ]
@@ -180,40 +158,47 @@ export default function PaginaAgendaInterna() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Cabeçalho */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="badge-amarelo mb-2">Agenda Interna da Equipe</div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">
-            Grade Diária de Atendimentos INBCA
+    <div className="space-y-6 pb-12">
+      {/* ── Header Estilo Casinha Amarela ────────────────────────── */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-400/40 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 max-w-2xl">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="bg-slate-950 text-amber-300 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              Agenda Integrada INBCA
+            </span>
+            <span className="bg-white/30 text-slate-950 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5" />
+              Grade do Balcão & Profissionais
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
+            Grade Diária de Atendimentos
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Painel interno para Médicos, Enfermeiros, Técnicos, Agentes Sociais e Instrutores gerenciarem a fila de atendimento.
+          <p className="text-slate-900 text-sm mt-1.5 font-medium leading-relaxed">
+            Instituto Nilson Bispo Casinha Amarela — Gerenciamento interno de horários para médicos, enfermeiros, terapeutas e instrutores.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Link href="/agendamento" className="botao-secundario text-xs">
-            Ver Portal Público
-          </Link>
+        <div className="relative z-10 flex flex-wrap gap-3">
           <button
             onClick={() => setExibirModalNovo(!exibirModalNovo)}
-            className="botao-primario text-xs"
+            className="px-5 py-3 bg-slate-950 text-amber-300 hover:bg-slate-900 font-black text-xs rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
-            <span>Agendamento Interno Rápido</span>
+            <span>Agendamento Rápido</span>
           </button>
         </div>
       </div>
 
-      {/* Modal / Card Formulário Interno */}
+      {/* ── Modal / Card Formulário Interno ──────────────────────────── */}
       {exibirModalNovo && (
-        <div className="cartao-destaque animate-slide-up space-y-4">
-          <div className="flex items-center justify-between border-b border-amber-300/40 pb-3">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-amber-200/80 dark:border-amber-900/40 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-amber-100 dark:border-amber-900/40 pb-3">
             <div className="flex items-center gap-2">
               <Plus className="w-5 h-5 text-amber-600" />
-              <h2 className="font-extrabold text-slate-900 dark:text-amber-200 text-base">
+              <h2 className="font-extrabold text-slate-900 dark:text-amber-300 text-base">
                 Marcar Atendimento Direto na Agenda Interna
               </h2>
             </div>
@@ -221,41 +206,41 @@ export default function PaginaAgendaInterna() {
               onClick={() => setExibirModalNovo(false)}
               className="text-xs font-bold text-slate-400 hover:text-slate-600"
             >
-              Fechar X
+              ✕
             </button>
           </div>
 
           <form onSubmit={salvarNovoAgendamento} className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="rotulo-campo">Paciente / Aluno *</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Paciente / Aluno *</label>
               <input
                 type="text"
                 placeholder="Nome completo do paciente"
                 value={novoPaciente}
                 onChange={(e) => setNovoPaciente(e.target.value)}
-                className="campo-input"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100"
                 required
               />
             </div>
 
             <div>
-              <label className="rotulo-campo">Telefone / WhatsApp *</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Telefone / WhatsApp *</label>
               <input
                 type="text"
                 placeholder="(71) 90000-0000"
                 value={novoTelefone}
                 onChange={(e) => setNovoTelefone(e.target.value)}
-                className="campo-input"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100"
                 required
               />
             </div>
 
             <div>
-              <label className="rotulo-campo">Categoria do Serviço</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Categoria do Serviço</label>
               <select
                 value={novaCat}
                 onChange={(e) => setNovaCat(e.target.value as any)}
-                className="campo-input cursor-pointer"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100 font-medium cursor-pointer"
               >
                 <option value="clinica">🩺 Clínica Médica</option>
                 <option value="exames">🔬 Exames Laboratoriais/Imagem</option>
@@ -265,40 +250,39 @@ export default function PaginaAgendaInterna() {
             </div>
 
             <div>
-              <label className="rotulo-campo">Serviço / Atendimento Específico *</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Serviço / Atendimento *</label>
               <input
                 type="text"
                 placeholder="Ex: Clínico Geral ou Karatê"
                 value={novoServico}
                 onChange={(e) => setNovoServico(e.target.value)}
-                className="campo-input"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100"
                 required
               />
             </div>
 
             <div>
-              <label className="rotulo-campo">Profissional Responsável</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Profissional Responsável</label>
               <select
                 value={novoProfissional}
                 onChange={(e) => setNovoProfissional(e.target.value)}
-                className="campo-input cursor-pointer"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100 font-medium cursor-pointer"
               >
                 <option value="Dra. Vanessa Lima (Médica)">Dra. Vanessa Lima (Médica)</option>
-                <option value="Enf.ª Juliana Montenegro (Enfermeira)">Enf.ª Juliana Montenegro (Enfermeira)</option>
-                <option value="Téc. Marcos Vinícius (Laboratório)">Téc. Marcos Vinícius (Laboratório)</option>
+                <option value="Dra. Camila Vasconcelos (Psicóloga)">Dra. Camila Vasconcelos (Psicóloga)</option>
+                <option value="Dr. Lucas Mendes (Fisioterapeuta)">Dr. Lucas Mendes (Fisioterapeuta)</option>
                 <option value="Mestre Carlos (Karatê)">Mestre Carlos (Karatê)</option>
                 <option value="Prof.ª Fernanda (Zumba)">Prof.ª Fernanda (Zumba)</option>
                 <option value="Prof. Ricardo (Boxe)">Prof. Ricardo (Boxe)</option>
-                <option value="Dra. Beatriz (Fisioterapeuta)">Dra. Beatriz (Fisioterapeuta)</option>
               </select>
             </div>
 
             <div>
-              <label className="rotulo-campo">Horário da Agenda</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Horário da Agenda</label>
               <select
                 value={novoHorario}
                 onChange={(e) => setNovoHorario(e.target.value)}
-                className="campo-input cursor-pointer"
+                className="w-full px-4 py-2.5 bg-amber-50/50 dark:bg-slate-800 text-sm rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100 font-medium cursor-pointer"
               >
                 <option value="08:00">08:00h</option>
                 <option value="09:00">09:00h</option>
@@ -314,11 +298,11 @@ export default function PaginaAgendaInterna() {
               <button
                 type="button"
                 onClick={() => setExibirModalNovo(false)}
-                className="botao-secundario text-xs"
+                className="px-4 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl"
               >
                 Cancelar
               </button>
-              <button type="submit" className="botao-primario text-xs">
+              <button type="submit" className="px-5 py-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md">
                 Confirmar Agendamento Interno
               </button>
             </div>
@@ -326,23 +310,23 @@ export default function PaginaAgendaInterna() {
         </div>
       )}
 
-      {/* Controles da Agenda (Filtros & Data) */}
-      <div className="cartao-amarelo space-y-4">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-          {/* Navegador de Data */}
-          <div className="flex items-center gap-3 bg-amber-50 dark:bg-slate-900 p-2 rounded-2xl border border-amber-200">
+      {/* ── Controles da Agenda (Filtros & Data Totalmente Alinhados) ───── */}
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-amber-200/80 dark:border-amber-900/40 shadow-sm space-y-4">
+        <div className="flex flex-col xl:flex-row items-center justify-between gap-3 w-full">
+          {/* Navegador de Data Alinhado */}
+          <div className="flex items-center gap-2 bg-amber-50/80 dark:bg-slate-800 p-1 rounded-2xl border border-amber-200/70 dark:border-amber-900/40 flex-shrink-0">
             <button
               onClick={() => {
                 const d = new Date(dataSelecionada)
                 d.setDate(d.getDate() - 1)
                 setDataSelecionada(d.toISOString().split('T')[0])
               }}
-              className="p-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-amber-100 shadow-sm transition-colors"
+              className="p-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-amber-300 hover:bg-amber-100 shadow-xs transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <div className="flex items-center gap-2 px-3 font-extrabold text-sm text-slate-900 dark:text-slate-100">
-              <CalendarIcon className="w-4 h-4 text-amber-600" />
+            <div className="flex items-center gap-1.5 px-2.5 font-extrabold text-xs text-slate-900 dark:text-slate-100 whitespace-nowrap">
+              <CalendarIcon className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
               <span>Data: {dataSelecionada}</span>
             </div>
             <button
@@ -351,160 +335,142 @@ export default function PaginaAgendaInterna() {
                 d.setDate(d.getDate() + 1)
                 setDataSelecionada(d.toISOString().split('T')[0])
               }}
-              className="p-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-amber-100 shadow-sm transition-colors"
+              className="p-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-700 dark:text-amber-300 hover:bg-amber-100 shadow-xs transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Filtros por Categoria */}
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Filtros por Categoria Alinhados */}
+          <div className="flex items-center gap-1.5 flex-wrap xl:flex-nowrap justify-center">
             <button
               onClick={() => setFiltroCategoria('todas')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`px-3.5 h-8 rounded-xl text-xs font-black transition-all whitespace-nowrap ${
                 filtroCategoria === 'todas'
-                  ? 'bg-amber-500 text-slate-950 shadow-soft'
-                  : 'bg-amber-100/60 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs border border-amber-500'
+                  : 'bg-amber-50/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-100'
               }`}
             >
               Todos os Serviços
             </button>
             <button
               onClick={() => setFiltroCategoria('clinica')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-3.5 h-8 rounded-xl text-xs font-black transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 filtroCategoria === 'clinica'
-                  ? 'bg-amber-500 text-slate-950 shadow-soft'
-                  : 'bg-amber-100/60 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs border border-amber-500'
+                  : 'bg-amber-50/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-100'
               }`}
             >
-              <Stethoscope className="w-3.5 h-3.5" />
+              <Stethoscope className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Clínica</span>
             </button>
             <button
               onClick={() => setFiltroCategoria('exames')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-3.5 h-8 rounded-xl text-xs font-black transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 filtroCategoria === 'exames'
-                  ? 'bg-amber-500 text-slate-950 shadow-soft'
-                  : 'bg-amber-100/60 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs border border-amber-500'
+                  : 'bg-amber-50/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-100'
               }`}
             >
-              <Activity className="w-3.5 h-3.5" />
+              <Activity className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Exames</span>
             </button>
             <button
               onClick={() => setFiltroCategoria('terapias')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-3.5 h-8 rounded-xl text-xs font-black transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 filtroCategoria === 'terapias'
-                  ? 'bg-amber-500 text-slate-950 shadow-soft'
-                  : 'bg-amber-100/60 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs border border-amber-500'
+                  : 'bg-amber-50/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-100'
               }`}
             >
-              <Brain className="w-3.5 h-3.5" />
+              <Brain className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Terapias</span>
             </button>
             <button
               onClick={() => setFiltroCategoria('esportes')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-3.5 h-8 rounded-xl text-xs font-black transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 filtroCategoria === 'esportes'
-                  ? 'bg-amber-500 text-slate-950 shadow-soft'
-                  : 'bg-amber-100/60 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                  ? 'bg-amber-400 text-slate-950 shadow-xs border border-amber-500'
+                  : 'bg-amber-50/70 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-100'
               }`}
             >
-              <Dumbbell className="w-3.5 h-3.5" />
-              <span>Lutas & Zumba</span>
+              <Dumbbell className="w-3.5 h-3.5 flex-shrink-0" />
+              <span>Esportes & Saúde</span>
             </button>
           </div>
 
-          {/* Campo de Busca */}
-          <div className="relative w-full lg:w-64">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+          {/* Campo de Busca Alinhado */}
+          <div className="relative w-full xl:w-64 flex-shrink-0">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Buscar por paciente, código..."
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              className="campo-input pl-10 text-xs py-2"
+              className="w-full pl-10 pr-4 py-2 bg-amber-50/50 dark:bg-slate-800 text-xs rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none focus:border-amber-500 text-slate-900 dark:text-slate-100 font-medium"
             />
           </div>
         </div>
 
-        {/* Grade da Agenda Interna */}
-        <div className="overflow-x-auto">
-          <table className="tabela-padrao">
-            <thead>
-              <tr>
-                <th>Horário</th>
-                <th>Código INBCA</th>
-                <th>Paciente / Contato</th>
-                <th>Serviço & Categoria</th>
-                <th>Profissional Responsável</th>
-                <th>Status Atual</th>
-                <th>Ações Internas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtrados.map((item) => (
-                <tr key={item.id}>
-                  <td className="font-black text-amber-700 dark:text-amber-400 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{item.horario}h</span>
-                    </div>
-                  </td>
-                  <td className="font-mono text-xs font-bold text-slate-500">{item.codigo}</td>
-                  <td>
-                    <div>
-                      <p className="font-bold text-slate-900 dark:text-slate-100 text-xs">{item.paciente}</p>
-                      <p className="text-[10px] text-slate-400 flex items-center gap-1">
-                        <Phone className="w-3 h-3" />
-                        <span>{item.telefone}</span>
-                      </p>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="text-xs font-bold text-slate-800 dark:text-amber-200">
-                      {item.servico}
-                    </span>
-                  </td>
-                  <td className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                    {item.profissional}
-                  </td>
-                  <td>
-                    {item.status === 'agendado' && <span className="badge bg-amber-100 text-amber-900 border border-amber-300">Agendado</span>}
-                    {item.status === 'em_atendimento' && <span className="badge bg-blue-100 text-blue-900 border border-blue-300 animate-pulse">Em Atendimento</span>}
-                    {item.status === 'concluido' && <span className="badge bg-emerald-100 text-emerald-900 border border-emerald-300">Concluído ✓</span>}
-                    {item.status === 'faltou' && <span className="badge bg-orange-100 text-orange-900 border border-orange-300">Faltou</span>}
-                    {item.status === 'cancelado' && <span className="badge bg-red-100 text-red-900 border border-red-300">Cancelado</span>}
-                  </td>
-                  <td>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => alterarStatus(item.id, 'em_atendimento')}
-                        className="p-1.5 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-900 text-xs font-bold transition-colors"
-                        title="Iniciar Atendimento"
-                      >
-                        Chamar
-                      </button>
-                      <button
-                        onClick={() => alterarStatus(item.id, 'concluido')}
-                        className="p-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-xs font-bold transition-colors"
-                        title="Concluir Atendimento"
-                      >
-                        Concluir
-                      </button>
-                      <button
-                        onClick={() => enviarLembreteWhatsApp(item)}
-                        className="p-1.5 rounded-lg bg-green-100 hover:bg-green-200 text-green-800 transition-colors"
-                        title="Enviar Lembrete WhatsApp"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* Grade da Agenda em Cards Responsivos (0 Rolagem) */}
+        <div className="space-y-3">
+          {filtrados.map((item) => (
+            <div
+              key={item.id}
+              className="p-5 bg-amber-50/40 dark:bg-slate-800/80 rounded-2xl border border-amber-200/80 dark:border-amber-900/40 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-amber-400 transition-all shadow-sm"
+            >
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 bg-amber-200/80 dark:bg-amber-950 px-2.5 py-0.5 rounded-md border border-amber-300/80 text-amber-950 dark:text-amber-300 font-black text-xs">
+                    <Clock className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
+                    <span>{item.horario}h</span>
+                  </div>
+
+                  <span className="font-mono text-xs font-bold text-slate-500 bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-md border border-amber-100 dark:border-amber-900/40">
+                    {item.codigo}
+                  </span>
+
+                  <span className={`text-[11px] font-black px-3 py-0.5 rounded-full border shadow-sm ${
+                    item.status === 'agendado' ? 'bg-amber-100 text-amber-950 border-amber-300 dark:bg-amber-950 dark:text-amber-300' :
+                    item.status === 'em_atendimento' ? 'bg-blue-100 text-blue-950 border-blue-300 dark:bg-blue-950 dark:text-blue-300 animate-pulse' :
+                    item.status === 'concluido' ? 'bg-emerald-100 text-emerald-950 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300' :
+                    'bg-slate-200 text-slate-900 border-slate-300 dark:bg-slate-800 dark:text-slate-200'
+                  }`}>
+                    {item.status === 'agendado' ? 'Agendado' : item.status === 'em_atendimento' ? 'Em Atendimento' : item.status === 'concluido' ? 'Concluído ✓' : item.status}
+                  </span>
+                </div>
+
+                <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-base">{item.paciente}</h3>
+                <p className="text-xs text-slate-500 font-medium">
+                  Serviço: <span className="font-bold text-slate-800 dark:text-slate-200">{item.servico}</span> | Profissional: <span className="font-bold text-slate-800 dark:text-slate-200">{item.profissional}</span> | Fone: <span className="font-mono font-bold text-slate-700 dark:text-slate-300">{item.telefone}</span>
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 border-t md:border-t-0 border-amber-100 dark:border-amber-900/30 pt-3 md:pt-0 justify-end">
+                <button
+                  onClick={() => alterarStatus(item.id, 'em_atendimento')}
+                  className="px-3.5 py-2 rounded-xl bg-blue-100 hover:bg-blue-200 text-blue-950 dark:bg-blue-950 dark:text-blue-300 text-xs font-black transition-all shadow-sm hover:scale-105"
+                  title="Iniciar Atendimento"
+                >
+                  Chamar
+                </button>
+                <button
+                  onClick={() => alterarStatus(item.id, 'concluido')}
+                  className="px-3.5 py-2 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-black transition-all shadow-sm hover:scale-105"
+                  title="Concluir Atendimento"
+                >
+                  Concluir
+                </button>
+                <button
+                  onClick={() => enviarLembreteWhatsApp(item)}
+                  className="p-2 rounded-xl bg-green-100 hover:bg-green-200 text-green-950 dark:bg-green-950 dark:text-green-300 transition-all shadow-sm hover:scale-105"
+                  title="Enviar Lembrete WhatsApp"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -1,50 +1,65 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Heart, Stethoscope, Dumbbell, Sparkles, Sun, Users, Activity, Smile } from 'lucide-react'
+import {
+  Heart, Stethoscope, Dumbbell, Sparkles, Sun, Users, Activity,
+  Smile, Scale, HeartHandshake, ShieldCheck, Brain, HeartPulse
+} from 'lucide-react'
 
 export function CasinhaAmarelaAnimada() {
   const [portaAberta, setPortaAberta] = useState(false)
   const [mensagemAtiva, setMensagemAtiva] = useState('Bem-vindo à Casinha Amarela do INBCA!')
 
   const estatisticas = [
-    { icone: Stethoscope, titulo: 'Consultas & Exames', valor: '8.400+', cor: 'bg-amber-100 text-amber-800' },
-    { icone: Activity, titulo: 'Fisioterapia & Terapias', valor: '3.200+', cor: 'bg-yellow-100 text-yellow-900' },
-    { icone: Dumbbell, titulo: 'Lutas & Esportes', valor: '1.500+', cor: 'bg-amber-200 text-amber-950' },
-    { icone: Users, titulo: 'Famílias Atendidas', valor: '4.800+', cor: 'bg-yellow-200 text-yellow-900' },
+    { icone: Stethoscope, titulo: 'Saúde & Exames', valor: '8.400+', cor: 'bg-amber-100 text-amber-800' },
+    { icone: Brain, titulo: 'Psico & Fisioterapia', valor: '3.200+', cor: 'bg-yellow-100 text-yellow-900' },
+    { icone: Dumbbell, titulo: 'Esportes & Saúde', valor: '2.500+', cor: 'bg-amber-200 text-amber-950' },
+    { icone: HeartHandshake, titulo: 'Famílias & Jurídico', valor: '4.800+', cor: 'bg-yellow-200 text-yellow-900' },
   ]
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto py-8 flex flex-col items-center justify-center select-none">
+    <div className="relative w-full max-w-2xl mx-auto py-10 flex flex-col items-center justify-center select-none">
       {/* Sol com Raios Giratórios no Fundo */}
       <div className="absolute -top-6 -right-6 w-36 h-36 opacity-30 pointer-events-none animate-sol-giro">
         <Sun className="w-full h-full text-amber-400" />
       </div>
 
-      {/* Badges Flutuantes ao Redor da Casinha */}
-      <div className="absolute -top-2 -left-4 md:left-2 animate-flutuar z-20">
-        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-soft border border-amber-300/60 text-xs font-bold text-amber-900 dark:text-amber-300">
-          <Stethoscope className="w-4 h-4 text-amber-500 animate-pulse" />
-          <span>Clínica & Exames</span>
+      {/* ── 4 Badges Flutuantes Harmoniosos ao Redor da Casinha Amarela ── */}
+      
+      {/* 1. Saúde & Clínica (Topo Esquerda) */}
+      <div className="absolute -top-2 left-0 md:left-2 animate-flutuar z-20">
+        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-300/70 text-xs font-black text-amber-950 dark:text-amber-300">
+          <Stethoscope className="w-4 h-4 text-amber-600 animate-pulse" />
+          <span>Saúde & Clínica</span>
         </div>
       </div>
 
-      <div className="absolute top-1/3 -right-2 md:-right-6 animate-flutuar [animation-delay:1.5s] z-20">
-        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-soft border border-amber-300/60 text-xs font-bold text-amber-900 dark:text-amber-300">
-          <Dumbbell className="w-4 h-4 text-amber-600" />
-          <span>Karatê • Capoeira • Boxe</span>
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 -left-2 md:-left-8 animate-flutuar [animation-delay:0.8s] z-20">
-        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-soft border border-amber-300/60 text-xs font-bold text-amber-900 dark:text-amber-300">
-          <Sparkles className="w-4 h-4 text-amber-500" />
+      {/* 2. Psico & Fisioterapia (Meio Esquerda) */}
+      <div className="absolute top-1/3 -left-3 md:-left-10 animate-flutuar [animation-delay:1.2s] z-20">
+        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-300/70 text-xs font-black text-amber-950 dark:text-amber-300">
+          <Brain className="w-4 h-4 text-amber-600" />
           <span>Psico & Fisioterapia</span>
         </div>
       </div>
 
+      {/* 3. Esportes & Saúde (Lado Direito - Na altura do Meio da Casa) */}
+      <div className="absolute top-36 md:top-40 -right-2 md:-right-8 animate-flutuar [animation-delay:1.8s] z-20">
+        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-300/70 text-xs font-black text-amber-950 dark:text-amber-300">
+          <Dumbbell className="w-4 h-4 text-amber-600" />
+          <span>Esportes & Saúde</span>
+        </div>
+      </div>
+
+      {/* 4. Assistência Jurídica (Lado Direito - Logo abaixo do Meio da Casa) */}
+      <div className="absolute top-56 md:top-60 -right-2 md:-right-8 animate-flutuar [animation-delay:0.6s] z-20">
+        <div className="flex items-center gap-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-300/70 text-xs font-black text-amber-950 dark:text-amber-300">
+          <Scale className="w-4 h-4 text-amber-600" />
+          <span>Assistência Jurídica</span>
+        </div>
+      </div>
+
       {/* Ilustração SVG Vetorial da Casinha Amarela Animada */}
-      <div className="relative w-72 h-72 md:w-96 md:h-96 filter drop-shadow-casinha transition-transform duration-300 hover:scale-105">
+      <div className="relative w-72 h-72 md:w-96 md:h-96 filter drop-shadow-casinha transition-transform duration-300 hover:scale-105 my-4">
         <svg
           viewBox="0 0 400 400"
           className="w-full h-full cursor-pointer"

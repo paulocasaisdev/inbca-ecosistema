@@ -1,17 +1,13 @@
 'use client'
+// ============================================================
+// INBCA - Módulo de Esportes Inclusivos & Lutas Comunitárias
+// Instituto Nilson Bispo Casinha Amarela
+// ============================================================
 
 import React, { useState } from 'react'
 import {
-  Dumbbell,
-  Users,
-  Calendar,
-  Clock,
-  Plus,
-  CheckCircle,
-  Award,
-  Sparkles,
-  UserCheck,
-  Search
+  Dumbbell, Users, Calendar, Clock, Plus, CheckCircle,
+  Award, Sparkles, UserCheck, Search, Shield, Trophy
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -27,7 +23,6 @@ export default function PaginaEsportesTerapias() {
     { id: 'kickboxing', nome: 'Kickboxing Adaptado', icone: '🥇', categoria: 'Luta Inclusiva', alunos: 60, dias: 'Segundas e Sextas', horario: '19:00', mestre: 'Prof.ª Amanda' },
     { id: 'fisioterapia', nome: 'Fisioterapia Reabilitadora', icone: '🩺', categoria: 'Saúde & Terapias', alunos: 45, dias: 'Segunda a Sexta', horario: '08:00 às 16:00', mestre: 'Dra. Beatriz' },
     { id: 'psicoterapia', nome: 'Psicoterapia em Grupo', icone: '🧠', categoria: 'Saúde Mental', alunos: 50, dias: 'Quartas-feiras', horario: '15:00', mestre: 'Dr. Fernando' },
-    { id: 'psicologia', nome: 'Psicologia Individual', icone: 'Sparkles', categoria: 'Saúde Mental', alunos: 60, dias: 'Segunda a Quinta', horario: '09:00 às 17:00', mestre: 'Dra. Márcia' },
   ]
 
   const listaAlunos = [
@@ -51,32 +46,44 @@ export default function PaginaEsportesTerapias() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Cabeçalho */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="badge-amarelo mb-2">Esportes Inclusivos & Terapias</div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">
-            Karatê, Zumba, Capoeira, Boxe, Kickboxing & Terapias
+    <div className="space-y-6 pb-12">
+      {/* ── Header Estilo Casinha Amarela ────────────────────────── */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-gradient-to-br from-amber-500 via-amber-600 to-yellow-600 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-400/40 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 max-w-2xl">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="bg-slate-950 text-amber-300 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+              <Dumbbell className="w-3.5 h-3.5" />
+              Esporte & Inclusão
+            </span>
+            <span className="bg-white/30 text-slate-950 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+              <Trophy className="w-3.5 h-3.5" />
+              Karatê, Zumba, Capoeira, Boxe & Kickboxing
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950">
+            Esportes & Saúde Comunitária
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Gestão de turmas esportivas, chamadas de frequência e projetos comunitários da Casinha Amarela.
+          <p className="text-slate-900 text-sm mt-1.5 font-medium leading-relaxed">
+            Instituto Nilson Bispo Casinha Amarela — Inclusão social através do esporte, artes marciais adaptadas e ginástica comunitária.
           </p>
         </div>
 
-        <button
-          onClick={() => toast.info('Formulário de inscrição de novo aluno/atleta')}
-          className="botao-primario text-xs"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Matricular Novo Aluno</span>
-        </button>
+        <div className="relative z-10 flex flex-wrap gap-3">
+          <button
+            onClick={() => toast.info('Formulário de inscrição de novo aluno/atleta')}
+            className="px-5 py-3 bg-slate-950 text-amber-300 hover:bg-slate-900 font-black text-xs rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Matricular Novo Aluno</span>
+          </button>
+        </div>
       </div>
 
-      {/* Grid de Modalidades Oferecidas */}
+      {/* ── Grid de Modalidades Oferecidas ──────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {modalidades.map((mod) => (
-          <div key={mod.id} className="cartao-amarelo flex flex-col justify-between hover:border-amber-400 transition-all">
+          <div key={mod.id} className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-amber-200/80 dark:border-amber-900/40 shadow-sm flex flex-col justify-between hover:border-amber-400 transition-all">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-3xl">{mod.icone}</span>
@@ -102,8 +109,8 @@ export default function PaginaEsportesTerapias() {
         ))}
       </div>
 
-      {/* Chamada de Frequência e Alunos */}
-      <div className="cartao-amarelo space-y-4">
+      {/* ── Chamada de Frequência e Alunos ──────────────────────────── */}
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-amber-200/80 dark:border-amber-900/40 shadow-sm space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-100 dark:border-amber-900/40 pb-4">
           <div>
             <h2 className="text-lg font-black text-slate-900 dark:text-slate-100">
@@ -118,7 +125,7 @@ export default function PaginaEsportesTerapias() {
             <select
               value={modalidadeFiltro}
               onChange={(e) => setModalidadeFiltro(e.target.value)}
-              className="campo-input text-xs py-2 cursor-pointer"
+              className="px-4 py-2 bg-amber-50/50 dark:bg-slate-800 text-xs rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none text-slate-900 dark:text-slate-100 font-medium cursor-pointer"
             >
               <option value="todas">Todas as Modalidades</option>
               {modalidades.map((m) => (
@@ -127,54 +134,54 @@ export default function PaginaEsportesTerapias() {
             </select>
 
             <div className="relative w-full sm:w-64">
-              <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Buscar por nome do aluno..."
                 value={buscaAluno}
                 onChange={(e) => setBuscaAluno(e.target.value)}
-                className="campo-input pl-10 text-xs py-2"
+                className="w-full pl-10 pr-4 py-2 bg-amber-50/50 dark:bg-slate-800 text-xs rounded-xl border border-amber-200/70 dark:border-amber-900/40 outline-none focus:border-amber-500 text-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
         </div>
 
-        {/* Tabela de Alunos e Chamada */}
-        <div className="overflow-x-auto">
-          <table className="tabela-padrao">
+        {/* Tabela de Alunos e Chamada Padronizada */}
+        <div className="overflow-x-auto rounded-2xl border border-amber-100 dark:border-amber-900/40">
+          <table className="tabela-padrao w-full min-w-full">
             <thead>
               <tr>
                 <th>Aluno / Praticante</th>
-                <th>Modalidade / Turma</th>
+                <th className="text-center">Modalidade / Turma</th>
                 <th>Responsável / Fone</th>
-                <th>Presença Hoje</th>
-                <th>Ações</th>
+                <th className="text-center w-36">Presença Hoje</th>
+                <th className="text-right w-44 pr-6">Ações</th>
               </tr>
             </thead>
             <tbody>
               {alunosFiltrados.map((aluno) => (
-                <tr key={aluno.id}>
-                  <td className="font-bold text-slate-900 dark:text-slate-100">{aluno.nome}</td>
-                  <td>
-                    <span className="badge bg-amber-100 text-amber-900 border border-amber-300">
+                <tr key={aluno.id} className="group">
+                  <td className="font-extrabold text-slate-900 dark:text-slate-100 text-sm py-4">{aluno.nome}</td>
+                  <td className="py-4 text-center">
+                    <span className="badge-categoria bg-amber-100 text-amber-950 border border-amber-300 dark:bg-amber-950/80 dark:text-amber-200 dark:border-amber-700 font-extrabold">
                       {aluno.modalidade}
                     </span>
                   </td>
-                  <td className="text-xs text-slate-500">{aluno.responsavel}</td>
-                  <td>
+                  <td className="text-xs font-semibold text-slate-600 dark:text-slate-400 py-4">{aluno.responsavel}</td>
+                  <td className="py-4 text-center">
                     {aluno.presencaHoje ? (
-                      <span className="badge bg-emerald-100 text-emerald-800">Presente ✓</span>
+                      <span className="badge-status bg-emerald-100 text-emerald-950 border border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800">Presente ✓</span>
                     ) : (
-                      <span className="badge bg-amber-50 text-amber-700">Pendente</span>
+                      <span className="badge-status bg-amber-100 text-amber-950 border border-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800">Pendente</span>
                     )}
                   </td>
-                  <td>
+                  <td className="py-4 text-right pr-6">
                     <button
                       onClick={() => alternarPresenca(aluno.id)}
-                      className="botao-secundario text-xs py-1 px-3"
+                      className="ml-auto btn-acao-padrao bg-amber-100 hover:bg-amber-200 text-amber-950 dark:bg-slate-800 dark:text-amber-300 font-black text-xs transition-all hover:scale-105"
                     >
-                      <UserCheck className="w-3.5 h-3.5 text-amber-600" />
-                      <span>{aluno.presencaHoje ? 'Remover' : 'Marcar Presença'}</span>
+                      <UserCheck className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 flex-shrink-0" />
+                      <span className="whitespace-nowrap">{aluno.presencaHoje ? 'Remover' : 'Marcar Presença'}</span>
                     </button>
                   </td>
                 </tr>
