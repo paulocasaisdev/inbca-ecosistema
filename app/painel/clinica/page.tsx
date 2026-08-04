@@ -11,10 +11,12 @@ import {
   HeartPulse, Shield, Check, Heart
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 import { buscarMoradores } from '../../../servicos/moradores'
 import { AgendamentoSocial } from '../../../tipos'
 
 export default function PaginaClinicaExames() {
+  const router = useRouter()
   const [busca, setBusca] = useState('')
   const [filtroTab, setFiltroTab] = useState<'todos' | 'consultas' | 'exames'>('todos')
   const [carregando, setCarregando] = useState(false)
@@ -86,7 +88,7 @@ export default function PaginaClinicaExames() {
 
         <div className="relative z-10 flex flex-wrap gap-3">
           <button
-            onClick={() => toast.info('Abre o formulário rápido de agendamento médico')}
+            onClick={() => router.push('/agendamento')}
             className="px-5 py-3 bg-slate-950 text-amber-300 hover:bg-slate-900 font-black text-xs rounded-2xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
@@ -233,7 +235,7 @@ export default function PaginaClinicaExames() {
                   <span>Concluir</span>
                 </button>
                 <button
-                  onClick={() => toast.info(`Abre prontuário de ${item.moradorNome}`)}
+                  onClick={() => router.push(`/painel/clinica/prontuario/${item.id}`)}
                   className="px-3.5 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 dark:bg-amber-950 dark:text-amber-300 font-black text-xs transition-all shadow-sm hover:scale-105 flex items-center gap-1.5"
                 >
                   <FileText className="w-4 h-4 text-amber-700 dark:text-amber-400" />

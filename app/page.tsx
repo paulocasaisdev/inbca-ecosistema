@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import {
   Stethoscope,
@@ -18,11 +18,25 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  UserCheck
+  UserCheck,
+  X
 } from 'lucide-react'
+import { toast } from 'sonner'
 import { CasinhaAmarelaAnimada } from '@/componentes/animacoes/CasinhaAmarelaAnimada'
 
 export default function PaginaInicial() {
+  const [modalContatoAberto, setModalContatoAberto] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+
+  const handleEnviarContato = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEnviando(true);
+    setTimeout(() => {
+      setEnviando(false);
+      setModalContatoAberto(false);
+      toast.success('Obrigado pelo seu interesse! Nossa equipe entrará em contato.');
+    }, 1200);
+  };
   const servicosMedicos = [
     { titulo: 'Clínica Geral & Preventiva', desc: 'Atendimento médico contínuo, diagnóstico primário e check-ups comunitários.', icone: Stethoscope },
     { titulo: 'Pediatria & Cuidado Infantil', desc: 'Acompanhamento do desenvolvimento e saúde de bebês e crianças da comunidade.', icone: UserCheck },
@@ -284,9 +298,9 @@ export default function PaginaInicial() {
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Sua doação ou trabalho voluntário nos ajuda a expandir os exames, consultas médicas e aulas de Karatê, Capoeira, Zumba e Boxe!
             </p>
-            <Link href="/agendamento" className="botao-primario w-full text-xs py-3">
+            <button onClick={() => setModalContatoAberto(true)} className="botao-primario w-full text-xs py-3">
               Quero Apoiar / Ser Voluntário
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -341,6 +355,57 @@ export default function PaginaInicial() {
           © {new Date().getFullYear()} INBCA - Instituto Nilson Bispo Casinha Amarela. Todos os direitos reservados.
         </div>
       </footer>
+
+      {/* Modal de Contato / Voluntariado */}
+      {modalContatoAberto && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border border-amber-200 dark:border-amber-900/50 animate-in zoom-in-95 duration-200">
+            <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-6 text-white flex justify-between items-center">
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <HeartPulse className="w-5 h-5" />
+                Apoie a Casinha Amarela
+              </h3>
+              <button onClick={() => setModalContatoAberto(false)} className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleEnviarContato} className="p-6 space-y-4">
+              <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">
+                Preencha os dados abaixo e nossa equipe entrará em contato com você para explicar como você pode ajudar.
+              </p>
+              <div className="space-y-1.5 text-left">
+                <label className="text-sm font-semibold text-slate-900 dark:text-slate-200">Nome Completo</label>
+                <input required type="text" className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm outline-none focus:border-amber-500 transition-colors" placeholder="Seu nome" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-slate-900 dark:text-slate-200">WhatsApp</label>
+                  <input required type="tel" className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm outline-none focus:border-amber-500 transition-colors" placeholder="(00) 00000-0000" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-slate-900 dark:text-slate-200">Como quer apoiar?</label>
+                  <select required className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm outline-none focus:border-amber-500 transition-colors">
+                    <option value="">Selecione...</option>
+                    <option value="voluntario">Trabalho Voluntário</option>
+                    <option value="doacao">Fazer Doação</option>
+                    <option value="parceria">Parceria / Empresa</option>
+                  </select>
+                </div>
+              </div>
+              <div className="space-y-1.5 text-left">
+                <label className="text-sm font-semibold text-slate-900 dark:text-slate-200">Mensagem (Opcional)</label>
+                <textarea rows={3} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm outline-none focus:border-amber-500 transition-colors" placeholder="Fale um pouco sobre você ou como gostaria de ajudar..." />
+              </div>
+              <div className="pt-2">
+                <button disabled={enviando} type="submit" className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl transition-colors disabled:opacity-70 flex justify-center items-center gap-2">
+                  {enviando ? <Sparkles className="w-5 h-5 animate-spin" /> : <HeartPulse className="w-5 h-5" />}
+                  {enviando ? 'Enviando...' : 'Enviar Contato'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

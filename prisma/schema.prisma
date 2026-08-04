@@ -1,0 +1,174 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ------------------------------------------------------
+// GESTÃO DE MORADORES E ASSISTÊNCIA SOCIAL
+// ------------------------------------------------------
+
+model Familia {
+  id               String      @id @default(cuid())
+  codigoCadBCA     String      @unique // Ex: CAD-2026-XXXX
+  endereco         String
+  bairro           String      @default("Comunidade")
+  rendaFamiliar    Decimal?    @db.Decimal(10, 2)
+  vulnerabilidade  NivelRisco  @default(MEDIO)
+  observacoes      String?
+  membros          Morador[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Morador {
+  id               String         @id @default(cuid())
+  nomeCompleto     String
+  cpf              String         @unique
+  cns              String?        // Cartão Nacional de Saúde (SUS)
+  dataNascimento   DateTime
+  telefone         String
+  email            String?
+  genero           String?
+  familiaId        String?
+  familia          Familia?       @relation(fields: [familiaId], references: [id])
+  
+  agendamentos     Agendamento[]
+  prontuarios      Prontuario[]
+  matriculasTurma  MatriculaTurma[]
+  atendimentosPICS RegistroPICS[]
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+enum NivelRisco {
+  BAIXO
+  MEDIO
+  ALTO
+  EXTREMO
+}
+
+// ------------------------------------------------------
+// NÚCLEO DE SAÚDE, CLÍNICA E SUS
+// ------------------------------------------------------
+
+model Especialista {
+  id              String         @id @default(cuid())
+  nome            String
+  registroProf    String         // CRM, CRP, CREFITO, etc.
+  especialidade   EspecialidadeType
+  atendimentos    Agendamento[]
+  prontuarios     Prontuario[]
+  turmas          Turma[]
+}
+
+enum EspecialidadeType {
+  MEDICINA_GERAL
+  PEDIATRIA
+  PSICOLOGIA
+  PSICOTERAPIA
+  FISIOTERAPIA
+  EXAME_LABORATORIAL
+  EXAME_IMAGEM
+  KARATE
+  CAPOEIRA
+  BOXE
+  KICKBOXING
+  ZUMBA
+}
+
+model Agendamento {
+  id              String            @id @default(cuid())
+  codigoCodigo    String            @unique // Ex: INBCA-849201
+  moradorId       String
+  morador         Morador           @relation(fields: [moradorId], references: [id])
+  especialistaId  String?
+  especialista    Especialista?     @relation(fields: [especialistaId], references: [id])
+  tipoServico     EspecialidadeType
+  dataHora        DateTime
+  status          StatusAgendamento @default(PENDENTE)
+  origemUBS       Boolean           @default(false)
+  ubsOrigemNome   String?
+  
+  prontuarios     Prontuario[]
+  createdAt       DateTime          @default(now())
+}
+
+enum StatusAgendamento {
+  PENDENTE
+  CONFIRMADO
+  REALIZADO
+  CANCELADO
+  FALTOU
+}
+
+model Prontuario {
+  id                String       @id @default(cuid())
+  agendamentoId     String
+  agendamento       Agendamento  @relation(fields: [agendamentoId], references: [id])
+  moradorId         String
+  morador           Morador      @relation(fields: [moradorId], references: [id])
+  especialistaId    String
+  especialista      Especialista @relation(fields: [especialistaId], references: [id])
+  
+  pressaoArterial   String?
+  glicemia          Int?
+  peso              Decimal?     @db.Decimal(5, 2)
+  altura            Decimal?     @db.Decimal(3, 2)
+  
+  anamnese          String
+  diagnostico       String?
+  prescricao        String?
+  encaminhamentoSUS String?
+  
+  dataAtendimento   DateTime     @default(now())
+}
+
+model RegistroPICS {
+  id              String      @id @default(cuid())
+  moradorId       String
+  morador         Morador     @relation(fields: [moradorId], references: [id])
+  modalidade      String
+  observacoes     String
+  dataSessao      DateTime    @default(now())
+}
+
+// ------------------------------------------------------
+// NÚCLEO DE ESPORTES E TERAPIAS EM GRUPO
+// ------------------------------------------------------
+
+model Turma {
+  id              String           @id @default(cuid())
+  nome            String
+  modalidade      EspecialidadeType
+  instrutorId     String
+  instrutor       Especialista     @relation(fields: [instrutorId], references: [id])
+  diasSemana      String
+  horario         String
+  capacidadeMax   Int
+  
+  matriculas      MatriculaTurma[]
+  frequencias     Frequencia[]
+}
+
+model MatriculaTurma {
+  id              String      @id @default(cuid())
+  turmaId         String
+  turma           Turma       @relation(fields: [turmaId], references: [id])
+  moradorId       String
+  morador         Morador     @relation(fields: [moradorId], references: [id])
+  atestadoMedico  Boolean     @default(false)
+  dataMatricula   DateTime    @default(now())
+}
+
+model Frequencia {
+  id              String      @id @default(cuid())
+  turmaId         String
+  turma           Turma       @relation(fields: [turmaId], references: [id])
+  dataAula        DateTime
+  presentesIds    String[]
+}

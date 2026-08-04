@@ -1,348 +1,314 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import Link from 'next/link'
-import {
-  Home,
-  Calendar,
-  Clock,
-  User,
-  Phone,
-  FileText,
-  CheckCircle,
-  Stethoscope,
-  Activity,
-  Dumbbell,
-  ArrowLeft,
-  Sparkles
-} from 'lucide-react'
-import { toast } from 'sonner'
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { agendamentoSchema, AgendamentoFormData } from '@/utils/schemas';
+import { formatarCNS } from '@/utils/validations';
 
-export default function PaginaAgendamento() {
-  const [categoria, setCategoria] = useState<'clinica' | 'exames' | 'terapias' | 'esportes'>('clinica')
-  const [servicoSelecionado, setServicoSelecionado] = useState('')
-  const [data, setData] = useState('')
-  const [horario, setHorario] = useState('')
-  const [nome, setNome] = useState('')
-  const [documento, setDocumento] = useState('')
-  const [telefone, setTelefone] = useState('')
-  const [bairro, setBairro] = useState('')
-  const [concluido, setConcluido] = useState(false)
-  const [codigoAgendamento, setCodigoAgendamento] = useState('')
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { CheckCircle2, HeartPulse, Dumbbell, ArrowRight, ArrowLeft, Download, Home, LayoutDashboard } from "lucide-react";
+import { QRCodeSVG } from 'qrcode.react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { ComprovanteAgendamentoPDF } from '@/components/pdf/ComprovanteAgendamentoPDF';
 
-  const opcoesPorCategoria = {
-    clinica: [
-      { id: 'clinico-geral', nome: 'Clínico Geral - Consulta Comunitária' },
-      { id: 'pediatria', nome: 'Pediatria - Acompanhamento Infantil' },
-      { id: 'oftalmologia', nome: 'Oftalmologia - Exame de Vista' },
-      { id: 'odontologia', nome: 'Odontologia - Triagem e Limpeza' },
-    ],
-    exames: [
-      { id: 'sangue-glicemia', nome: 'Exames de Sangue / Glicemia / Colesterol' },
-      { id: 'ultrassom', nome: 'Ultrassonografia Geral' },
-      { id: 'ecg', nome: 'Eletrocardiograma (ECG)' },
-      { id: 'urina-fezes', nome: 'Sumário de Urina e Parasitológico' },
-    ],
-    terapias: [
-      { id: 'psicologia', nome: 'Psicologia Individual' },
-      { id: 'psicoterapia-grupo', nome: 'Psicoterapia em Grupo' },
-      { id: 'fisioterapia-motora', nome: 'Fisioterapia Motora e Reabilitação' },
-    ],
-    esportes: [
-      { id: 'karate', nome: 'Karatê Inclusivo (Infantil / Jovem / PNE)' },
-      { id: 'zumba', nome: 'Zumba & Ginástica Comunitária' },
-      { id: 'capoeira', nome: 'Capoeira Inclusiva' },
-      { id: 'boxe', nome: 'Boxe para Saúde e Disciplina' },
-      { id: 'kickboxing', nome: 'Kickboxing Adaptado' },
-    ],
-  }
+const PDFDownloadLink = dynamic(
+  () => import('@react-pdf/renderer').then(mod => mod.PDFDownloadLink),
+  { ssr: false, loading: () => <Button disabled variant="outline" className="w-full mt-4"><Download className="w-4 h-4 mr-2 animate-spin" /> Preparando PDF...</Button> }
+);
 
-  const horariosDisponiveis = [
-    '08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'
-  ]
+export default function AgendamentoPage() {
+  const [step, setStep] = useState(1);
+  const router = useRouter();
 
-  function submeterAgendamento(e: React.FormEvent) {
-    e.preventDefault()
-    if (!servicoSelecionado || !data || !horario || !nome || !telefone) {
-      toast.error('Por favor, preencha todos os campos obrigatórios do agendamento!')
-      return
+  const form = useForm<AgendamentoFormData>({
+    resolver: zodResolver(agendamentoSchema),
+    defaultValues: {
+      categoria: '',
+      servico: '',
+      nome: '',
+      cpf: '',
+      cns: '',
+      origemUBS: false,
+      ubsNome: ''
+    },
+    mode: "onChange"
+  });
+
+  const { watch, setValue, trigger } = form;
+  const servicoAtual = watch("servico");
+  const origemUBS = watch("origemUBS");
+
+  const handleNextStep = async () => {
+    if (step === 1) {
+      const valid = await trigger(["categoria", "servico"]);
+      if (valid) setStep(2);
+    } else if (step === 2) {
+      const valid = await trigger(["nome", "cpf", "cns", "origemUBS", "ubsNome"]);
+      if (valid) {
+        // Enviar para API aqui no futuro
+        setStep(3);
+      }
     }
-
-    const cod = 'INBCA-' + Math.floor(100000 + Math.random() * 900000)
-    setCodigoAgendamento(cod)
-    setConcluido(true)
-    toast.success('Agendamento realizado com sucesso na Casinha Amarela!')
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-[#fffdf5] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col">
-      {/* Cabeçalho */}
-      <header className="bg-white dark:bg-slate-900 border-b border-amber-200 dark:border-amber-900/40 px-4 lg:px-8 py-4 flex items-center justify-between shadow-soft">
-        <Link href="/" className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 font-bold text-sm">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Voltar ao Portal INBCA</span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-slate-950 font-bold">
-            <Home className="w-4 h-4" />
-          </div>
-          <span className="font-black text-amber-600 text-sm">INBCA Agendamentos</span>
-        </div>
-      </header>
+    <div className="min-h-screen bg-inbca-50 py-10 px-4 flex justify-center items-center">
+      <Card className="w-full max-w-2xl shadow-xl border-inbca-100">
+        <CardHeader className="bg-inbca-600 text-white rounded-t-lg">
+          <CardTitle className="text-2xl flex items-center gap-2">
+            🏡 INBCA - Agendamento Comunitário
+          </CardTitle>
+          <p className="text-inbca-100 text-sm">
+            Passo {step} de 3 - {step === 1 ? 'Selecione o Serviço' : step === 2 ? 'Identificação do Morador' : 'Confirmação'}
+          </p>
+        </CardHeader>
+        
+        <CardContent className="p-6 space-y-6">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleNextStep)} className="space-y-6">
+              
+              {step === 1 && (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-800">Selecione o tipo de atendimento:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setValue('categoria', 'CLINICA');
+                        setValue('servico', 'Consulta Médica');
+                        setStep(2);
+                      }}
+                      className={`p-4 rounded-xl border-2 flex items-center gap-4 transition-all border-gray-200 hover:border-inbca-500 hover:bg-inbca-50 cursor-pointer`}
+                    >
+                      <HeartPulse className="w-8 h-8 text-health-600" />
+                      <div className="text-left">
+                        <div className="font-bold text-gray-800">Clínica Médica</div>
+                        <div className="text-xs text-gray-500">Consultas e Exames com Integração SUS</div>
+                      </div>
+                    </button>
 
-      {/* Conteúdo Central */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-8">
-        {concluido ? (
-          <div className="cartao-destaque text-center space-y-6 animate-scale-in py-12">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 mx-auto flex items-center justify-center shadow-lg">
-              <CheckCircle className="w-10 h-10" />
-            </div>
-
-            <div className="space-y-2">
-              <span className="badge-amarelo">Agendamento Confirmado!</span>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100">
-                Tudo certo para o seu atendimento
-              </h2>
-              <p className="text-sm text-slate-600 dark:text-slate-300">
-                Apresente o código abaixo na recepção da <strong>Casinha Amarela</strong> no dia marcado.
-              </p>
-            </div>
-
-            <div className="p-4 bg-amber-100 dark:bg-amber-950/80 rounded-2xl border border-amber-300 dark:border-amber-700 max-w-xs mx-auto">
-              <p className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-widest">Código de Agendamento</p>
-              <p className="text-2xl font-black text-slate-900 dark:text-amber-200 tracking-wider mt-1">{codigoAgendamento}</p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto text-left text-xs bg-white dark:bg-slate-900 p-4 rounded-xl border border-amber-200">
-              <div>
-                <span className="text-slate-400 font-bold block">Morador:</span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">{nome}</span>
-              </div>
-              <div>
-                <span className="text-slate-400 font-bold block">Data e Horário:</span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">{data} às {horario}</span>
-              </div>
-              <div className="col-span-2">
-                <span className="text-slate-400 font-bold block">Serviço Agendado:</span>
-                <span className="font-bold text-amber-700 dark:text-amber-300">{servicoSelecionado}</span>
-              </div>
-            </div>
-
-            <div className="flex justify-center gap-4 pt-4">
-              <button
-                onClick={() => {
-                  setConcluido(false)
-                  setServicoSelecionado('')
-                  setData('')
-                  setHorario('')
-                }}
-                className="botao-secundario text-xs"
-              >
-                Novo Agendamento
-              </button>
-              <Link href="/" className="botao-primario text-xs">
-                Voltar à Página Principal
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="cartao-amarelo space-y-6">
-            <div className="space-y-2 border-b border-amber-100 dark:border-amber-900/40 pb-4">
-              <div className="badge-amarelo">Atendimento Comunitário</div>
-              <h1 className="text-2xl font-black text-slate-900 dark:text-slate-100">
-                Agende sua Consulta, Exame, Terapia ou Esporte
-              </h1>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Preencha os dados abaixo para reservar seu horário no Instituto Nilson Bispo Casinha Amarela.
-              </p>
-            </div>
-
-            <form onSubmit={submeterAgendamento} className="space-y-6">
-              {/* Seleção de Categoria */}
-              <div>
-                <label className="rotulo-campo">1. Selecione a Categoria do Atendimento:</label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => { setCategoria('clinica'); setServicoSelecionado('') }}
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                      categoria === 'clinica'
-                        ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-soft'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-amber-200 hover:bg-amber-50'
-                    }`}
-                  >
-                    <Stethoscope className="w-5 h-5" />
-                    <span>Clínica Médica</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => { setCategoria('exames'); setServicoSelecionado('') }}
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                      categoria === 'exames'
-                        ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-soft'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-amber-200 hover:bg-amber-50'
-                    }`}
-                  >
-                    <Activity className="w-5 h-5" />
-                    <span>Exames</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => { setCategoria('terapias'); setServicoSelecionado('') }}
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                      categoria === 'terapias'
-                        ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-soft'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-amber-200 hover:bg-amber-50'
-                    }`}
-                  >
-                    <Sparkles className="w-5 h-5" />
-                    <span>Terapias & Psico</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => { setCategoria('esportes'); setServicoSelecionado('') }}
-                    className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                      categoria === 'esportes'
-                        ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-soft'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-amber-200 hover:bg-amber-50'
-                    }`}
-                  >
-                    <Dumbbell className="w-5 h-5" />
-                    <span>Esportes & Lutas</span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setValue('categoria', 'ESPORTE');
+                        setValue('servico', 'Karatê');
+                        setStep(2);
+                      }}
+                      className={`p-4 rounded-xl border-2 flex items-center gap-4 transition-all border-gray-200 hover:border-inbca-500 hover:bg-inbca-50 cursor-pointer`}
+                    >
+                      <Dumbbell className="w-8 h-8 text-sports-600" />
+                      <div className="text-left">
+                        <div className="font-bold text-gray-800">Esportes e Lutas</div>
+                        <div className="text-xs text-gray-500">Karatê, Capoeira, Boxe, Zumba</div>
+                      </div>
+                    </button>
+                  </div>
+                  
+                  <div className="pt-4 flex justify-center">
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      onClick={() => router.push('/')}
+                      className="text-gray-500 hover:text-red-500 hover:bg-red-50"
+                    >
+                      Cancelar e voltar ao site
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Seleção do Serviço Específico */}
-              <div>
-                <label className="rotulo-campo">2. Selecione a Modalidade ou Especialidade:</label>
-                <select
-                  value={servicoSelecionado}
-                  onChange={(e) => setServicoSelecionado(e.target.value)}
-                  className="campo-input cursor-pointer"
-                  required
-                >
-                  <option value="">-- Escolha um serviço --</option>
-                  {opcoesPorCategoria[categoria].map((op) => (
-                    <option key={op.id} value={op.nome}>
-                      {op.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Data e Horário */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="rotulo-campo flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4 text-amber-600" />
-                    <span>3. Data do Atendimento:</span>
-                  </label>
-                  <input
-                    type="date"
-                    value={data}
-                    onChange={(e) => setData(e.target.value)}
-                    className="campo-input"
-                    required
+              {step === 2 && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                  <FormField
+                    control={form.control}
+                    name="nome"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome Completo</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ex: Maria da Silva" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                <div>
-                  <label className="rotulo-campo flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-amber-600" />
-                    <span>4. Horário Preferencial:</span>
-                  </label>
-                  <select
-                    value={horario}
-                    onChange={(e) => setHorario(e.target.value)}
-                    className="campo-input cursor-pointer"
-                    required
-                  >
-                    <option value="">-- Selecione o horário --</option>
-                    {horariosDisponiveis.map((hr) => (
-                      <option key={hr} value={hr}>
-                        {hr}h
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Dados do Morador */}
-              <div className="space-y-4 pt-2 border-t border-amber-100 dark:border-amber-900/40">
-                <h3 className="text-sm font-bold text-slate-800 dark:text-amber-300">5. Identificação do Paciente / Aluno</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="rotulo-campo">Nome Completo *</label>
-                    <div className="relative">
-                      <User className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input
-                        type="text"
-                        placeholder="Ex: Maria dos Santos"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
-                        className="campo-input pl-10"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="rotulo-campo">CPF ou Cartão SUS *</label>
-                    <div className="relative">
-                      <FileText className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input
-                        type="text"
-                        placeholder="000.000.000-00"
-                        value={documento}
-                        onChange={(e) => setDocumento(e.target.value)}
-                        className="campo-input pl-10"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="rotulo-campo">WhatsApp / Celular *</label>
-                    <div className="relative">
-                      <Phone className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
-                      <input
-                        type="tel"
-                        placeholder="(71) 90000-0000"
-                        value={telefone}
-                        onChange={(e) => setTelefone(e.target.value)}
-                        className="campo-input pl-10"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="rotulo-campo">Bairro / Comunidade</label>
-                    <input
-                      type="text"
-                      placeholder="Ex: Casinha Amarela / Nilson Bispo"
-                      value={bairro}
-                      onChange={(e) => setBairro(e.target.value)}
-                      className="campo-input"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="cpf"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>CPF</FormLabel>
+                          <FormControl>
+                            <Input placeholder="000.000.000-00" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="cns"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Cartão SUS (CNS)</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="700 0000 0000 0000" 
+                              {...field} 
+                              onChange={(e) => {
+                                const formatado = formatarCNS(e.target.value);
+                                field.onChange(formatado);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
-              </div>
 
-              {/* Botão de Finalização */}
-              <button type="submit" className="botao-primario w-full py-4 text-base mt-4">
-                <CheckCircle className="w-5 h-5" />
-                <span>Confirmar Agendamento no INBCA</span>
-              </button>
+                  <FormField
+                    control={form.control}
+                    name="origemUBS"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            className="mt-1 w-4 h-4 text-amber-600 rounded border-amber-300 focus:ring-amber-500"
+                            checked={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm font-medium text-amber-900 cursor-pointer">
+                            Este agendamento é resultado de um encaminhamento de um Posto de Saúde / UBS da rede pública?
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
+                  {origemUBS && (
+                    <FormField
+                      control={form.control}
+                      name="ubsNome"
+                      render={({ field }) => (
+                        <FormItem className="animate-in fade-in slide-in-from-top-2">
+                          <FormLabel>Nome do Posto de Saúde / UBS</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Ex: UBS Pituaçu / USF Bairro" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  <div className="pt-4 flex justify-between">
+                    <Button type="button" variant="outline" onClick={() => setStep(1)} className="gap-2">
+                      <ArrowLeft className="w-4 h-4" /> Voltar
+                    </Button>
+                    <Button 
+                      type="button"
+                      onClick={handleNextStep}
+                      className="bg-inbca-600 hover:bg-inbca-700 text-white gap-2"
+                    >
+                      Finalizar Agendamento
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="text-center py-6 space-y-4 animate-in zoom-in duration-500">
+                  <CheckCircle2 className="w-16 h-16 text-health-600 mx-auto animate-bounce" />
+                  <h2 className="text-2xl font-bold text-gray-800">Agendamento Realizado!</h2>
+                  
+                  <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm inline-block text-left w-full relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                      <QRCodeSVG value={`INBCA-${form.getValues("cpf")}`} size={100} />
+                    </div>
+
+                    <div className="text-xs text-gray-500 font-semibold tracking-wider">CÓDIGO DA CONSULTA</div>
+                    <div className="text-2xl font-mono font-black text-inbca-700 mb-4">INBCA-{form.getValues("cpf")?.replace(/\D/g, '').slice(0, 6) || "123456"}</div>
+                    
+                    <div className="space-y-2 text-sm text-gray-700 relative z-10">
+                      <p className="flex justify-between border-b border-gray-100 pb-2">
+                        <strong className="text-gray-500">Paciente:</strong> 
+                        <span className="font-medium">{form.getValues("nome")}</span>
+                      </p>
+                      <p className="flex justify-between border-b border-gray-100 pb-2">
+                        <strong className="text-gray-500">Serviço:</strong> 
+                        <span className="font-medium text-right">{form.getValues("servico")}</span>
+                      </p>
+                      {form.getValues("cns") && (
+                        <p className="flex justify-between border-b border-gray-100 pb-2">
+                          <strong className="text-gray-500">CNS:</strong> 
+                          <span className="font-mono">{form.getValues("cns")}</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm text-gray-600">Apresente este código (ou o QR Code impresso no PDF) na recepção do Instituto no dia do atendimento.</p>
+                  
+                  <div className="flex flex-col gap-3 pt-4">
+                    <PDFDownloadLink 
+                      document={
+                        <ComprovanteAgendamentoPDF 
+                          codigo={`INBCA-${form.getValues("cpf")?.replace(/\D/g, '').slice(0, 6) || "123456"}`}
+                          pacienteNome={form.getValues("nome")}
+                          servico={form.getValues("servico")}
+                          dataGeracao={new Date().toLocaleDateString('pt-BR')}
+                        />
+                      } 
+                      fileName={`Comprovante_INBCA_${form.getValues("nome").replace(/\s/g, '_')}.pdf`}
+                    >
+                      {({ loading }) => (
+                        <Button type="button" className="w-full bg-inbca-600 hover:bg-inbca-700 text-white gap-2 font-bold" disabled={loading}>
+                          <Download className="w-4 h-4" /> {loading ? 'Gerando Comprovante...' : 'Baixar Comprovante (PDF)'}
+                        </Button>
+                      )}
+                    </PDFDownloadLink>
+                    
+                    <Button type="button" variant="outline" onClick={() => { form.reset(); setStep(1); }} className="w-full text-gray-600">
+                      Agendar Outro Paciente
+                    </Button>
+
+                    <div className="flex gap-3 w-full mt-2">
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        className="w-full text-xs text-gray-500 gap-1.5 hover:bg-gray-100" 
+                        onClick={() => router.push('/')}
+                      >
+                        <Home className="w-4 h-4" /> Site
+                      </Button>
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        className="w-full text-xs text-gray-500 gap-1.5 hover:bg-gray-100" 
+                        onClick={() => router.push('/painel')}
+                      >
+                        <LayoutDashboard className="w-4 h-4" /> Painel Admin
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </form>
-          </div>
-        )}
-      </main>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
-  )
+  );
 }

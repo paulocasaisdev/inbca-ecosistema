@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description: 'Associação Comunitária com clínica médica, exames, terapias, psicoterapias e esportes inclusivos (Karatê, Zumba, Capoeira, Boxe, Kickboxing).',
   keywords: ['INBCA', 'Casinha Amarela', 'Nilson Bispo', 'clínica médica comunitária', 'exames', 'fisioterapia', 'psicologia', 'karatê', 'zumba', 'capoeira', 'boxe', 'kickboxing'],
   authors: [{ name: 'Instituto Nilson Bispo' }],
+  manifest: '/manifest.json',
 }
 
 export default function LayoutRaiz({

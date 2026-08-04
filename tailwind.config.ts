@@ -34,6 +34,25 @@ const configuracaoTailwind: Config = {
         em_atendimento: '#3B82F6',
         concluido: '#64748B',
         cancelado: '#EF4444',
+        inbca: {
+          50: '#FEFCE8',
+          100: '#FEF9C3',
+          500: '#F59E0B',
+          600: '#D97706',
+          700: '#B45309',
+          900: '#78350F',
+        },
+        health: {
+          50: '#ECFDF5',
+          500: '#10B981',
+          600: '#059669',
+          700: '#047857',
+        },
+        sports: {
+          50: '#FFF7ED',
+          500: '#F97316',
+          600: '#EA580C',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
