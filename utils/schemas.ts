@@ -15,7 +15,7 @@ export const agendamentoSchema = z.object({
       if (clean.length === 0) return true; // Se for opcional na UI, deixamos passar ou não. Neste caso, é obrigatório na refatoração.
       return validarCNS(clean);
     }, { message: 'Cartão Nacional de Saúde (CNS) inválido' }),
-  origemUBS: z.boolean().default(false),
+  origemUBS: z.boolean(),
   ubsNome: z.string().optional()
 }).superRefine((data, ctx) => {
   if (data.origemUBS && (!data.ubsNome || data.ubsNome.trim().length === 0)) {
