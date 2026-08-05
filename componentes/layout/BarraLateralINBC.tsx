@@ -13,30 +13,40 @@ import {
   LogOut, Bell, Sparkles, Users, Scale, Settings, Menu, X, BarChart3, History
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { createClient } from '@/utils/supabase/client'
+import { toast } from 'sonner'
+
+interface BarraLateralProps {
+  userRole?: string
+  userName?: string
+}
 
 interface ItemNavegacao {
   rotulo: string
   href: string
   icone: React.ElementType
   badge?: string
+  roles?: string[]
 }
 
+const ALL_ROLES = ['ADMIN', 'RECEPCAO', 'MEDICO', 'ASSISTENTE_SOCIAL', 'INSTRUTOR']
+
 const itensNavegacao: ItemNavegacao[] = [
-  { rotulo: 'Painel Geral',           href: '/painel',                     icone: LayoutDashboard },
-  { rotulo: 'Agenda Interna',         href: '/painel/agenda',              icone: Calendar, badge: 'Grade' },
-  { rotulo: 'Clínica & Exames',       href: '/painel/clinica',             icone: Stethoscope, badge: 'Hoje' },
-  { rotulo: 'Terapias & Psicoterapia',href: '/painel/terapias',            icone: Brain },
-  { rotulo: 'Esportes & Saúde',       href: '/painel/esportes-terapias',   icone: Dumbbell, badge: 'Saúde & Lutas' },
-  { rotulo: 'Assistência & Famílias', href: '/painel/social',              icone: HeartHandshake },
-  { rotulo: 'Assistência Jurídica',   href: '/painel/juridico',            icone: Scale, badge: 'Gratuito' },
-  { rotulo: 'Equipe & Perfis',        href: '/painel/usuarios',            icone: Users, badge: '6 Categorias' },
-  { rotulo: 'Voluntários & Doações',  href: '/painel/voluntarios',         icone: Gift },
-  { rotulo: 'Relatórios & Dados',     href: '/painel/relatorios',          icone: BarChart3, badge: 'Indicadores' },
-  { rotulo: 'Logs de Auditoria',      href: '/painel/auditoria',           icone: History, badge: 'Segurança' },
-  { rotulo: 'Configurações',          href: '/painel/configuracoes',       icone: Settings },
+  { rotulo: 'Painel Geral',           href: '/painel',                     icone: LayoutDashboard, roles: ALL_ROLES },
+  { rotulo: 'Agenda Interna',         href: '/painel/agenda',              icone: Calendar, badge: 'Grade', roles: ALL_ROLES },
+  { rotulo: 'Clínica & Exames',       href: '/painel/clinica',             icone: Stethoscope, badge: 'Hoje', roles: ['ADMIN', 'RECEPCAO', 'MEDICO'] },
+  { rotulo: 'Terapias & Psicoterapia',href: '/painel/terapias',            icone: Brain, roles: ['ADMIN', 'RECEPCAO', 'MEDICO', 'ASSISTENTE_SOCIAL'] },
+  { rotulo: 'Esportes & Saúde',       href: '/painel/esportes-terapias',   icone: Dumbbell, badge: 'Saúde & Lutas', roles: ['ADMIN', 'RECEPCAO', 'INSTRUTOR'] },
+  { rotulo: 'Assistência & Famílias', href: '/painel/social',              icone: HeartHandshake, roles: ['ADMIN', 'RECEPCAO', 'ASSISTENTE_SOCIAL'] },
+  { rotulo: 'Assistência Jurídica',   href: '/painel/juridico',            icone: Scale, badge: 'Gratuito', roles: ['ADMIN', 'RECEPCAO'] },
+  { rotulo: 'Equipe & Perfis',        href: '/painel/usuarios',            icone: Users, badge: '6 Categorias', roles: ['ADMIN'] },
+  { rotulo: 'Voluntários & Doações',  href: '/painel/voluntarios',         icone: Gift, roles: ['ADMIN', 'RECEPCAO'] },
+  { rotulo: 'Relatórios & Dados',     href: '/painel/relatorios',          icone: BarChart3, badge: 'Indicadores', roles: ['ADMIN'] },
+  { rotulo: 'Logs de Auditoria',      href: '/painel/auditoria',           icone: History, badge: 'Segurança', roles: ['ADMIN'] },
+  { rotulo: 'Configurações',          href: '/painel/configuracoes',       icone: Settings, roles: ['ADMIN'] },
 ]
 
-export function BarraLateralINBC() {
+export function BarraLateralINBC({ userRole = 'RECEPCAO', userName = 'Usuário' }: BarraLateralProps) {
   const caminho = usePathname()
   const roteador = useRouter()
   const [recolhida, setRecolhida] = useState(false)
@@ -152,7 +162,7 @@ export function BarraLateralINBC() {
 
         {/* Navegação Principal */}
         <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-          {itensNavegacao.map((item) => {
+          {itensNavegacao.filter(item => item.roles?.includes(userRole)).map((item) => {
             const ativo = item.href === '/painel'
               ? caminho === '/painel'
               : caminho === item.href || caminho.startsWith(item.href + '/')
@@ -189,6 +199,19 @@ export function BarraLateralINBC() {
 
         {/* Rodapé da Barra Lateral */}
         <div className="p-3 border-t border-amber-100 dark:border-amber-900/40 bg-amber-50/50 dark:bg-slate-950/40 space-y-2">
+          
+          {(!recolhida || abertoMobile) && (
+            <div className="px-3 mb-2 flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-amber-200 dark:bg-amber-900 flex items-center justify-center text-amber-800 dark:text-amber-200 font-bold text-xs">
+                {userName.charAt(0)}
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[150px]">{userName}</span>
+                <span className="text-[10px] text-slate-500 uppercase">{userRole}</span>
+              </div>
+            </div>
+          )}
+
           <Link
             href="/"
             className={`
@@ -201,7 +224,12 @@ export function BarraLateralINBC() {
           </Link>
 
           <button
-            onClick={() => roteador.push('/')}
+            onClick={async () => {
+              const supabase = createClient()
+              await supabase.auth.signOut()
+              roteador.push('/login')
+              roteador.refresh()
+            }}
             className={`
               w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors
               ${recolhida && !abertoMobile ? 'justify-center' : ''}

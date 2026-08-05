@@ -172,3 +172,25 @@ model Frequencia {
   dataAula        DateTime
   presentesIds    String[]
 }
+
+// ------------------------------------------------------
+// AUTENTICAÇÃO E CONTROLE DE ACESSO (RBAC)
+// ------------------------------------------------------
+
+enum Role {
+  ADMIN
+  RECEPCAO
+  MEDICO
+  ASSISTENTE_SOCIAL
+  INSTRUTOR
+}
+
+model Usuario {
+  id        String   @id // UUID vindo do auth.users do Supabase
+  email     String   @unique
+  nome      String
+  role      Role     @default(RECEPCAO)
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
