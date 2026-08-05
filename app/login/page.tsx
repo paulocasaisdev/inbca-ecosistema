@@ -73,9 +73,21 @@ export default function PaginaLogin() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-amber-950 font-semibold">
-                Senha
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-amber-950 font-semibold">
+                  Senha
+                </Label>
+                <Link 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toast.info('Para redefinir sua senha, solicite ao Administrador do sistema.');
+                  }}
+                  className="text-sm font-semibold text-amber-600 hover:text-amber-700 hover:underline"
+                >
+                  Esqueceu a senha?
+                </Link>
+              </div>
               <Input
                 id="password"
                 name="password"
